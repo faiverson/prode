@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Permission;
 use App\Models\Role;
 
 class RoleSeeder extends Seeder
@@ -13,8 +14,6 @@ class RoleSeeder extends Seeder
     public function run()
     {
         $this->command->info("Starting to seed permissions");
-
-		Permission::unguard();
 		$adminP = Permission::create([
 			'name' => 'admin',
 			'display_name' => 'Admin',
@@ -26,10 +25,7 @@ class RoleSeeder extends Seeder
 			'description' => 'Allow to users info in the system',
 		]);
 
-		Permission::reguard();
 		$this->command->info("Starting to seed roles");
-		Role::unguard();
-
         Role::create([
 			'name' => 'admin',
 			'display_name' => 'Administrator',
@@ -40,7 +36,6 @@ class RoleSeeder extends Seeder
 			'name' => 'user',
 			'display_name' => 'User',
 			'description' => 'This role is an editor'
-		])->attachPermissions([$userP]);
-		Role::reguard();
+		])->attachPermission($userP);
     }
 }
