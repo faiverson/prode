@@ -66,7 +66,7 @@ class AddFixture extends Command
         $number = 0;
         $prev = $number;
         $team_away = array_reverse($team_away);
-        $all_teams = array_merge($team_home, $team_away);
+
         foreach ($team_home as $key => $team) {
             if($jocker == $team_away[$key]) {
                 $fixture[$number][] = ['home' => $jocker, 'away' => $team];
@@ -75,9 +75,8 @@ class AddFixture extends Command
             }
 
         }
-//        $jocker_position = 'away';
-        for ($number = 1; $number <= count($team_home); $number++) {
-            $teams = array_merge($team_home, $team_away);
+
+        for ($number = 1; $number < count($team_home); $number++) {
             $temp_home = $team_home;
             $tempA = array_slice($temp_home, 0, $number);
             $tempCommonA = array_slice($temp_home, $number);
@@ -152,7 +151,6 @@ class AddFixture extends Command
                 $rival = array_filter($fixture[$prev][$n], function ($item) use($team_link, $jocker) {
                     return $item != $team_link;
                 });
-//                dd($team, $team_link, $fixture[$prev][$n]);
 
                 $rival_position = array_keys($rival)[0] == 'home' ? 'away' : 'home';
                 $rival = array_values($rival)[0];
@@ -177,10 +175,6 @@ class AddFixture extends Command
                 $team_position = $rival_position == 'home' ? 'away' : 'home';
                 $match = [$team_position => $team, $rival_position => $rival];
                 $fixture[$number][] = $match;
-//                if($number == 5) {
-//                    dd($match);
-//                    dd($team, $fixture[$prev][$n][$home]);
-//                }
                 array_splice($tempA, array_search($rival, $tempA), 1);
             }
 
@@ -227,5 +221,6 @@ class AddFixture extends Command
             }
             $prev = $number;
         }
+        dd($fixture);
     }
 }
