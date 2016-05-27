@@ -1,0 +1,35 @@
+<div class="centering">
+    <div id="login-wrap" class="container vertical-center">
+        <div class="row">
+            <div id="form-wrap" class="col-md-12 center-block">
+            <div class="show"><!-- Login Step 1 -->
+                <br>
+                <form autocomplete="off" name="loginForm" novalidate="novalidate" data-ng-submit="login()" class="form-signin">
+                    <div class="control-group">
+                        <input data-ng-minlength="4" data-ng-model="user.email" class="form-control"
+                               placeholder="Enter Your Email" required type="email" name="email">
+                    </div>
+                    <div class="control-group">
+                        <input data-ng-minlength="4" data-ng-model="user.password" class="form-control" autofocus
+                               placeholder="Enter Your Password" required type="password" name="password">
+                    </div>
+                    <hr>
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </form><!-- /form -->
+            </div>
+            <div class="hide"><!-- Login Case No Account Registered -->
+                <p style="font-size: 18px;" class="text-center">Opps! Looks like you dont have an account</p>
+                <hr>
+                <a class="btn-blue text-center" href="#">Click Here To Create Account</a>
+                <a href="#" class="mt20 full-w text-center">go back to login and try again</a>
+            </div>
+            <div class="text-center mt20">
+                <a id="form-login-forgotten" href="#" class="text-center" data-ng-click="openForgotPassword()">Forgot Password?</a>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

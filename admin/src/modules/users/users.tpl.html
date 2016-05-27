@@ -1,0 +1,130 @@
+<div class="container">
+	<header class="header clearfix">
+		<div id="logo" class="col-md-12">
+			<a href="javascript:void(0)" id="logow"><img src="/assets/images/logo.png"></a>
+		</div>
+		<div class="header clearfix">
+			<nav>
+				<ul class="nav nav-pills pull-right">
+					<li role="presentation" class="active"><a href="#">Users</a></li>
+				</ul>
+			</nav>
+			<h3 class="text-muted">Project name</h3>
+		</div>
+	</header>
+	<section class="row clearfix">
+		<form method="post">
+			<div class="col-md-12">
+				<section class="users">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th sort-column="" on-sort="" sort-data="">#</th>
+								<th sort-column="" on-sort="" sort-data=""> Name</th>
+								<th sort-column="" on-sort="" sort-data=""> Email</th>
+								<th sort-column="status" on-sort="" sort-data=""></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="user in users">
+								<td>{{ user.id}}</td>
+								<td>{{ user.first_name}} {{ user.last_name}}</td>
+								<td>{{ user.email }}</td>
+								<td class="">
+									<div class="pull-right">
+										<a href="#" data-ng-click="getProspectInfo(user.prospect_id)" class="btn btn-sm btn-info">Prospect Info</a>
+										<a href="#" data-ng-click="getUserInfo(user)" class="btn btn-sm btn-success">User Info</a>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+			</div>
+		</form>
+	</section>
+	<script type="text/ng-template" id="prospect-info.tpl.html">
+		<div class="modal-header">
+			<button type="button" class="close" data-ng-click="close()" aria-label="Close">
+				<span aria-hidden="true">×</span>
+			</button>
+			<h3 class="modal-title">Prospect Info</h3>
+		</div>
+		<div class="modal-body">
+			<table class="table table-responsive table-striped" >
+				<tr>
+					<td>ID</td>
+					<td>{{prospect.id}}</td>
+				</tr>
+				<tr>
+					<td>Name</td>
+					<td>{{prospect.first_name}} {{prospect.last_name}}</td>
+				</tr>
+				<tr>
+					<td>Username</td>
+					<td>{{prospect.username}}</td>
+				</tr>
+				<tr>
+					<td>Email</td>
+					<td>{{prospect.email}}</td>
+				</tr>
+				<tr>
+					<td>Phone</td>
+					<td>{{prospect.phone}}</td>
+				</tr>
+				<tr>
+					<td>Sponsor ID</td>
+					<td>{{prospect.sponsor_id}}</td>
+				</tr>
+				<tr>
+					<td>Last Login</td>
+					<td>{{prospect.last_login_at}}</td>
+				</tr>
+			</table>
+		</div>
+	</script>
+	<script type="text/ng-template" id="user-info.tpl.html">
+		<div class="modal-header">
+			<button type="button" class="close" data-ng-click="close()" aria-label="Close">
+				<span aria-hidden="true">×</span>
+			</button>
+			<h3 class="modal-title">User Info</h3>
+		</div>
+		<div class="modal-body">
+			<table class="table table-responsive table-striped" >
+				<tr>
+					<td>ID</td>
+					<td>{{user.id}}</td>
+				</tr>
+				<tr>
+					<td>Name</td>
+					<td>{{user.first_name}} {{user.last_name}}</td>
+				</tr>
+				<tr>
+					<td>Username</td>
+					<td>{{user.username}}</td>
+				</tr>
+				<tr>
+					<td>Email</td>
+					<td>{{user.email}}</td>
+				</tr>
+				<tr>
+					<td>IP addresss</td>
+					<td>{{user.ip_address}}</td>
+				</tr>
+				<tr>
+					<td>Phone</td>
+					<td>{{user.phone}}</td>
+				</tr>
+				<tr>
+					<td>Social Security Number</td>
+					<td>{{user.social_security_number}}</td>
+				</tr>
+				<tr>
+					<td>Sponsor ID</td>
+					<td>{{user.sponsor_id}}</td>
+				</tr>
+			</table>
+		</div>
+	</script>
+</div>

@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Repositories\UserRepository;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use DB;
+use App\Helpers\Token;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -35,9 +40,9 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepository $userRepository)
     {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -49,24 +54,86 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
-    protected function create(array $data)
+    public function admin(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $request->type = 'admin';
+        return $this->login($request);
+    }
+
+    public function login(Request $request)
+    {
+        $email = $request->input('email');
+        $username = $request->input('username');
+        $password = $request->input('password');
+
+        if (($email || $username) && $password) {
+            try {
+                $info = [
+                    'email' => $email,
+                    'username' => $username,
+                    'active' => 1,
+                    'type' => $request->type ? $request->type : 'user'
+                ];
+
+                $u = $this->userRepository->isUser($info, ['users.id', 'password']);
+                if (!$u->ability('admin', $request->type)) {
+                    return response()->error('Invalid Credentials', 401);
+                }
+
+                if (empty($u)) {
+                    return response()->error('Invalid Credentials', 401);
+                }
+
+                if (!Hash::check($password, $u->password)) {
+                    return response()->error('Wrong Password', 401);
+                }
+
+                $token = Token::add($u->id);
+                if ($token) {
+                    return response()->ok(compact('token'));
+                }
+                return response()->error('Invalid Credentials', 401);
+            } catch (JWTException $e) {
+                return response()->error('Could not create a token', $e->getStatusCode());
+            }
+        }
+        return response()->error("The credentials are wrong", 400);
+    }
+
+    public function renewToken(Request $request)
+    {
+        $id = $request->id;
+        if ($id) {
+            try {
+                $u = DB::table('users')
+                    ->select('id', 'password')
+                    ->where('active', 1)
+                    ->where('id', $id)
+                    ->first();
+
+                if (empty($u)) {
+                    return response()->error('Invalid Credentials', 401);
+                }
+
+                $token = Token::add($u->id);
+                if ($token) {
+                    return response()->ok(compact('token'));
+                }
+            } catch (JWTException $e) {
+                return response()->error('Could not create a token', $e->getStatusCode());
+            }
+        }
+        return response()->error("The credentials are wrong", 400);
+    }
+
+    public function logout(Request $request)
+    {
+        $response = Token::deprecate($request);
+        return !is_string($response) ? response()->ok() : response()->error($response);
     }
 }

@@ -1,0 +1,23 @@
+{
+  "name": "ng-prode",
+  "dependencies": {
+    "jquery": "^2.1.1",
+    "moment": "~2.10.6",
+    "bootstrap": "^3.3.5",
+    "angular": "^1.4.8",
+    "angular-bootstrap": "^1.2.4",
+    "angular-ui-router": "^0.2.15",
+    "angular-moment": "~0.10.3",
+    "angular-sanitize": "^1.4.8",
+    "angular-mocks": "^1.4.*",
+    "angular-ui-mask": "~1.6.5",
+    "angular-loading-bar": "~0.8.0",
+    "angular-autodisable": "^0.2.2",
+    "angular-ui-notification": "~0.1.0",
+    "angular-filter": "^0.5.8",
+    "ngSmoothScroll": "^2.0.0",
+    "angular-cookies": "~1.4.7",
+    "angular-local-storage": "~0.2.3",
+    "angular-jwt": "~0.0.6"
+  }
+}

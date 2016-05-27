@@ -14,14 +14,14 @@ class Fixture extends Migration
     {
         Schema::create('fixtures', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 150)->nullable(false);
+            $table->integer('number')->nullable(false);
             $table->integer('season_id')->unsigned();
 
             $table->foreign('season_id')->references('id')->on('seasons')
                 ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->date('start_dt')->nullable(false);
-            $table->date('end_dt')->nullable(false);
+            $table->dateTime('start_at')->nullable();
+            $table->dateTime('end_at')->nullable();
         });
     }
 

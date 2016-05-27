@@ -2,7 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Fixture;
+use App\Models\Match;
 use App\Models\SeasonTeam;
+use App\Repositories\MatchRepository;
 use App\Repositories\SeasonRepository;
 use App\Repositories\SeasonTeamRepository;
 use App\Repositories\TeamRepository;
@@ -42,12 +45,15 @@ class AddFixture extends Command
      *
      * @return void
      */
-    public function __construct(SeasonRepository $seasonRepository, TeamRepository $teamRepository, SeasonTeamRepository $seasonTeamRepository)
+    public function __construct(SeasonRepository $seasonRepository, TeamRepository $teamRepository, SeasonTeamRepository $seasonTeamRepository, MatchRepository $matchRepository)
     {
         parent::__construct();
 		$this->seasonRepository = $seasonRepository;
 		$this->teamRepository = $teamRepository;
 		$this->seasonTeamRepository = $seasonTeamRepository;
+        $this->matchRepository = $matchRepository;
+        $this->home = ['Velez', 'Newells', 'Sarmiento', 'Quilmes', 'Belgrano', 'Union', 'Arsenal', 'Godoy Cruz', 'Gimnasia LP', 'San Lorenzo', 'Argentinos', 'Banfield', 'Boca', 'Racing', 'Tigre'];
+        $this->away = ['Crucero', 'Rosario Central', 'Olimpo', 'Temperley', 'Atletico Rafaela', 'Colon', 'Defensa y Justicia', 'San Martin SJ', 'Estudiantes LP', 'Huracan', 'Nueva Chicago', 'Lanus', 'River', 'Independiente', 'Aldosivi'];
     }
 
     /**
@@ -58,22 +64,31 @@ class AddFixture extends Command
     public function handle()
     {
 		$this->info('Start fixture');
-        $team_home = ['Velez', 'Newells', 'Sarmiento', 'Quilmes', 'Belgrano', 'Union', 'Arsenal', 'Godoy Cruz', 'Gimnasia', 'San Lorenzo', 'Argentinos', 'Banfield', 'Boca', 'Racing', 'Tigre'];
-        $team_away = ['Crucero', 'Rosario Central', 'Olimpo', 'Temperley', 'Rafaela', 'Colon', 'Defensa', 'San Martin SJ', 'Estudiantes', 'Huracan', 'Nueva Chicago', 'Lanus', 'River', 'Independiente', 'Aldosivi'];
+        $team_home = [];
+        $team_away = [];
+        foreach ($this->home as $team) {
+            $t = $this->teamRepository->findBy('name', $team, ['id'])->first();
+            array_push($team_home, $t->id);
+        }
+
+        foreach ($this->away as $team) {
+            $t = $this->teamRepository->findBy('name', $team, ['id'])->first();
+            array_push($team_away, $t->id);
+        }
+
         $fixture = [];
         $jocker = $team_away[0];
-        $jocker_position = 'home';
+        $jocker_position = 'home_team_id';
         $number = 0;
         $prev = $number;
         $team_away = array_reverse($team_away);
 
         foreach ($team_home as $key => $team) {
             if($jocker == $team_away[$key]) {
-                $fixture[$number][] = ['home' => $jocker, 'away' => $team];
+                $fixture[$number][] = ['home_team_id' => $jocker, 'away_team_id' => $team];
             } else {
-                $fixture[$number][] = ['home' => $team, 'away' => $team_away[$key]];
+                $fixture[$number][] = ['home_team_id' => $team, 'away_team_id' => $team_away[$key]];
             }
-
         }
 
         for ($number = 1; $number < count($team_home); $number++) {
@@ -82,29 +97,29 @@ class AddFixture extends Command
             $tempCommonA = array_slice($temp_home, $number);
             $temp_away = $team_away;
             $index_jocker_rival = (integer) floor($number / 2);
-            if($jocker_position == 'home') {
-                $jocker_position = 'away';
+            if($jocker_position == 'home_team_id') {
+                $jocker_position = 'away_team_id';
                 $jocker_rival = $team_home[$index_jocker_rival];
-                $match = ['home' => $jocker_rival, $jocker_position => $jocker];
+                $match = ['home_team_id' => $jocker_rival, $jocker_position => $jocker];
             }
             else {
-                $jocker_position = 'home';
+                $jocker_position = 'home_team_id';
                 $jocker_rival = $team_away[count($team_away) - $index_jocker_rival - 1];
                 if($jocker_rival == $jocker) {
                     $jocker_rival = $team_away[count($team_away) - $index_jocker_rival - 1];
                 }
-                $match = [$jocker_position => $jocker, 'away' => $jocker_rival];
+                $match = [$jocker_position => $jocker, 'away_team_id' => $jocker_rival];
             }
             array_splice($temp_away, array_search($jocker, $temp_away), 1);
             $fixture[$number][] = $match;
             if($number % 2 == 0) {
-                $home = 'home';
-                $away = 'away';
+                $home = 'home_team_id';
+                $away = 'away_team_id';
                 array_splice($temp_away, array_search($jocker_rival, $temp_away), 1);
             }
             else {
-                $home = 'away';
-                $away = 'home';
+                $home = 'away_team_id';
+                $away = 'home_team_id';
             }
 
             foreach ($tempCommonA as $key => $team) {
@@ -121,8 +136,8 @@ class AddFixture extends Command
                 $rival = array_filter($fixture[$prev][$n], function ($item) use($team_link) {
                     return $item != $team_link;
                 });
-                $rival_position = array_keys($rival)[0] == 'home' ? 'away' : 'home';;
-                $team_position = $rival_position == 'home' ? 'away' : 'home';
+                $rival_position = array_keys($rival)[0] == 'home_team_id' ? 'away_team_id' : 'home_team_id';;
+                $team_position = $rival_position == 'home_team_id' ? 'away_team_id' : 'home_team_id';
                 $rival = array_values($rival)[0];
                 $match = [$team_position => $team, $rival_position => $rival];
                 $fixture[$number][] = $match;
@@ -152,7 +167,7 @@ class AddFixture extends Command
                     return $item != $team_link;
                 });
 
-                $rival_position = array_keys($rival)[0] == 'home' ? 'away' : 'home';
+                $rival_position = array_keys($rival)[0] == 'home_team_id' ? 'away_team_id' : 'home_team_id';
                 $rival = array_values($rival)[0];
 
                 if($rival == $jocker) {
@@ -161,18 +176,18 @@ class AddFixture extends Command
                         $n = array_search($team_link, array_column($fixture[$prev - 1], $away));
                     }
                     $rival = $fixture[$prev - 1][$n];
-                    $rival_position = array_keys($rival)[0] == 'home' ? 'away' : 'home';
+                    $rival_position = array_keys($rival)[0] == 'home_team_id' ? 'away_team_id' : 'home_team_id';
                     $rival = array_values($rival)[0];
 //                    if($number == 4) {
 //                        dd($team, $fixture[$prev][$n], $rival, $rival_position);
 //                    }
-//                    $rival_position = array_keys($rival)[0] == 'home' ? 'away' : 'home';
+//                    $rival_position = array_keys($rival)[0] == 'home_team_id' ? 'away_team_id' : 'home_team_id';
 //                    if($number == 5) {
 //                        dd($fixture[$prev - 1][$n]);
 //                        dd($rival);
 //                    }
                 }
-                $team_position = $rival_position == 'home' ? 'away' : 'home';
+                $team_position = $rival_position == 'home_team_id' ? 'away_team_id' : 'home_team_id';
                 $match = [$team_position => $team, $rival_position => $rival];
                 $fixture[$number][] = $match;
                 array_splice($tempA, array_search($rival, $tempA), 1);
@@ -202,7 +217,7 @@ class AddFixture extends Command
                     return $item != $team_link;
                 });
 
-                $rival_position = array_keys($rival)[0] == 'home' ? 'away' : 'home';
+                $rival_position = array_keys($rival)[0] == 'home_team_id' ? 'away_team_id' : 'home_team_id';
                 $rival = array_values($rival)[0];
 
                 if($rival == $jocker) {
@@ -213,7 +228,7 @@ class AddFixture extends Command
                     $rival = $fixture[$prev - 1][$n][$away];
                 }
 
-                $team_position = $rival_position == 'home' ? 'away' : 'home';
+                $team_position = $rival_position == 'home_team_id' ? 'away_team_id' : 'home_team_id';
                 $match = [$team_position => $team, $rival_position => $rival];
                 $fixture[$number][] = $match;
                 array_splice($remain, array_search($team, $remain), 1);
@@ -221,6 +236,24 @@ class AddFixture extends Command
             }
             $prev = $number;
         }
-        dd($fixture);
+
+        $this->addFixture($fixture);
+        $this->info('Ended fixture');
+
+    }
+
+    public function addFixture($fixture)
+    {
+        $season = $this->seasonRepository->findBy('name', 'Primera Division 2015', ['id'])->first();
+        foreach ($fixture as $f => $item) {
+            $fixt = Fixture::create([
+                'number' => ($f + 1),
+                'season_id' => $season->id
+            ]);
+            $matches = array_map(function($data) use ($fixt) {
+                return array_merge(['fixture_id' => $fixt->id], $data);
+            }, $item);
+            $this->matchRepository->create_bulk($matches);
+        }
     }
 }

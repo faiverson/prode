@@ -17,9 +17,9 @@ class Matches extends Migration
             $table->integer('fixture_id')->unsigned();
             $table->integer('home_team_id')->unsigned();
             $table->integer('away_team_id')->unsigned();
-            $table->integer('home_result');
-            $table->integer('away_result');
-            $table->enum('result', ['Home', 'Draw', 'Away']);
+            $table->integer('home_result')->unsigned()->nullable();
+            $table->integer('away_result')->unsigned()->nullable();
+            $table->enum('result', ['Home', 'Draw', 'Away', 'Not played'])->default('Not played');
 
             $table->foreign('fixture_id')->references('id')->on('fixtures')
                 ->onUpdate('cascade')->onDelete('cascade');

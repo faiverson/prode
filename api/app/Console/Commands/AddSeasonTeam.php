@@ -59,7 +59,7 @@ class AddSeasonTeam extends Command
     {
 		$this->info('Adding teams to season');
         $season_list = $this->seasonRepository->all(null, null, null, ['name'=>'asc']);
-        $teams_list = $this->teamRepository->all(null, 10, 0, ['name'=>'asc']);
+        $teams_list = $this->teamRepository->all(null, null, 0, ['name'=>'asc']);
 
         $season_array = $season_list->pluck('name')->toArray();
         $season = $this->choice('What is the season name', $season_array);

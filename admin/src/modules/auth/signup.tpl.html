@@ -1,0 +1,170 @@
+<div id="login-wrap">
+    <div class="container">
+        <div class="row">
+
+            <div id="form-wrap" class="col-md-12 center-block">
+                <form name="form" novalidate="novalidate">
+                    <h4 class="text-center">Contact Information</h4>
+                    <hr>
+                    <div class="form-group has-feedback" data-show-errors>
+                        <input type="text"
+                               name="first_name"
+                               class="form-control"
+                               id="first_name"
+                               required minlength="4" maxlength="50"
+                               data-ng-model="auth.first_name"
+                               placeholder="First Name">
+                    </div>
+                    <div class="form-group has-feedback" data-show-errors>
+                        <input type="text"
+                               name="last_name"
+                               class="form-control"
+                               id="last_name"
+                               required minlength="4" maxlength="50"
+                               data-ng-model="auth.last_name"
+                               placeholder="Last Name">
+                    </div>
+
+                    <div class="form-group has-feedback" data-show-errors>
+                        <input type="email"
+                               name="email"
+                               class="form-control"
+                               id="email"
+                               required
+                               data-ng-model="auth.email"
+                               placeholder="Email Address">
+                    </div>
+                    <div class="form-group has-feedback" data-show-errors>
+                        <input type="text"
+                               name="username"
+                               class="form-control"
+                               id="username"
+                               required data-ng-minlength="4"
+                               data-ng-model="auth.username"
+                               placeholder="Username">
+                    </div>
+                    <div class="form-group has-feedback" data-show-errors>
+                        <input type="text"
+                               name="phone"
+                               class="form-control"
+                               id="phone"
+                               required
+                               ng-pattern="/^([\s\+\-\(\)0-9]){6,18}$/"
+                               msg-pattern="Invalid phone"
+                               data-ng-model="auth.phone"
+                               placeholder="Phone">
+                    </div>
+                    <div class="form-group" data-show-errors="">
+                        <select class="form-control"
+                                ng-country
+                                required
+                                data-show-default-option="false"
+                                data-default-value="United States"
+                                ng-model="auth.country"
+                                name="country"
+                                data-region-id="userRegion">
+                        </select>
+                    </div>
+                    <div class="form-group" data-show-errors="">
+                        <select class="form-control"
+                                ng-region
+                                required
+                                data-show-default-option="true"
+                                data-default-option="What State Do You Live In?"
+                                id="userRegion"
+                                name="state"
+                                ng-model="auth.state">
+                        </select>
+                    </div>
+
+                    <h4 class="mt20 text-center">Enagic&reg; Information</h4>
+                    <hr>
+                    <div class="form-group has-feedback" data-show-errors>
+                        <input type="text"
+                               name="enagic_name"
+                               class="form-control"
+                               id="enagic_name"
+                               required minlength="4" maxlength="100"
+                               data-ng-model="auth.enagic_name"
+                               placeholder="Enagic Name">
+                    </div>
+                    <div class="form-group has-feedback" data-show-errors>
+                        <input type="text"
+                               name="enagic_phone"
+                               class="form-control"
+                               id="enagic_phone"
+                               ng-pattern="/^([\s\+\-\(\)0-9]){6,18}$/"
+                               msg-pattern="Invalid phone"
+                               data-ng-model="auth.enagic_phone"
+                               placeholder="Enagic Phone">
+                    </div>
+                    <div class="form-group has-feedback" data-show-errors>
+                        <input type="email"
+                               name="enagic_email"
+                               class="form-control"
+                               id="enagic_email"
+                               required
+                               data-ng-model="auth.enagic_email"
+                               placeholder="Enagic Email">
+                    </div>
+                    <div class="form-group has-feedback" data-show-errors>
+                        <select data-ng-change="updatePlaceholder()" required ng-init="auth.enagic_id_type=''"
+                                name="enagic_id_type"
+                                placeholder="please select an option" data-ng-model="auth.enagic_id_type"
+                                class="form-control mb10">
+                            <option value="">Please select an option</option>
+                            <option value="id">Enagic Distributor ID</option>
+                            <option value="onlineorder">Enagic Online Order Number</option>
+                        </select>
+                    </div>
+                    <div class="form-group has-feedback" data-show-errors>
+                        <input type="text"
+                               name="enagic_id"
+                               class="form-control"
+                               id="enagic_id"
+                               required minlength="4" maxlength="10"
+                               data-ng-model="auth.enagic_id"
+                               placeholder="{{enagic_id_placeholder}}">
+                    </div>
+
+                    <div class="form-group has-feedback" data-show-errors>
+
+                        <input type="password"
+                               name="password"
+                               id="password"
+                               class="form-control"
+                               minlength="8"
+                               maxlength="20"
+                               data-ng-model="auth.password"
+                               placeholder="Password">
+                        <span class="glyphicon glyphicon-lock form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback" data-show-errors>
+
+                        <input name="password_confirmation"
+                               id="password_confirmation"
+                               class="form-control"
+                               required
+                               data-compare-to="auth.password"
+                               type="password" minlength="8"
+                               maxlength="20"
+                               data-ng-model="auth.password_confirmation"
+                               placeholder="Password Confirmation">
+                        <span class="glyphicon glyphicon-lock form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                </form>
+                <div id="form-login-links">
+                    <button class="btn btn-warning btn-block"
+                            data-ng-click="send()"
+                            data-ng-disabled="resetPasswordForm.$invalid">Create Account!
+                    </button>
+                    <!--<a id="form-login-submit" class="button bg-orange" href="#">Reset!</a>-->
+
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

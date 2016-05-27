@@ -1,0 +1,31 @@
+<div data-ng-controller="HeaderCtrl">
+    <div class="container">
+        <header>
+            <div id="header-content">
+                <div id="logo"
+                     data-ng-class="vars.isLoggedIn() ? 'col-md-4 col-xs-12 col-sm-4 pull-left':'col-md-12 col-xs-12 col-sm-12 text-center'">
+                    <a href="#"><img class="img-responsive logo" ng-src="{{vars.getHeaderImage()}}"/></a>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </header>
+    </div>
+    <ng-slide-push-menu position="left" button="push" data-ng-show="vars.isLoggedIn()">
+        <li data-ng-if="!vars.isMember()"><a target="_top" ui-sref-active="active" ui-sref="webinar" href="#" data-ng-class="">Webinar</a></li>
+        <li data-ng-if="!vars.isMember()">
+            <a target="_top" data-ng-if="!vars.isUSmember()" ui-sref-active="active" ui-sref="application" href="#">Get
+                Started</a>
+            <a target="_top" data-ng-if="vars.isUSmember()" ui-sref-active="active" ui-sref="get_started" href="#">Get
+                Started</a>
+        </li>
+        <li><a target="_top" ui-sref-active="active" ui-sref="success-steps" href="#">Success Steps</a></li>
+        <li><a target="_top" ui-sref-active="active" ui-sref="welcome" href="#">Welcome</a></li>
+        <li><a target="_top" ui-sref-active="active" ui-sref="links" href="#">Links</a></li>
+        <li><a target="_top" ui-sref-active="active" ui-sref="training" href="#">Training</a></li>
+        <li><a target="_top" ui-sref-active="active" ui-sref="resources" href="#">Resources</a></li>
+        <li><a target="_top" ui-sref-active="active" ui-sref="leads" href="#">Leads</a></li>
+        <li data-ng-show="vars.isAppCompleted()"><a target="_top" ui-sref="user.profile">Settings</a></li>
+        <li><a href="https://powerlifepro.zendesk.com/home" target="_blank">Support</a></li>
+        <li><a target="_top" ui-sref="logout">Logout</a></li>
+    </ng-slide-push-menu>
+</div>

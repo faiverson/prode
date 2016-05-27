@@ -22,7 +22,8 @@ class UserSeeder extends Seeder
 			'last_name' => 'torres',
 			'username' => 'fabian',
 			'email' => 'fabian@gmail.com',
-			'password' => 'admin'
+			'password' => 'admin',
+			'type' => 'admin'
 		])->attachRole($role->id);
 
 		User::create([
@@ -30,7 +31,8 @@ class UserSeeder extends Seeder
 			'last_name' => 'borda',
 			'username' => 'juan',
 			'email' => 'juan@borda.com',
-			'password' => 'admin'
+			'password' => 'admin',
+			'type' => 'admin'
 		])->attachRole($role->id);
 
 		if (App::Environment() === 'local') {

@@ -43,6 +43,8 @@ class TeamSeeder extends Seeder
             'Patronato',
             'San Martin SJ',
             'Sarmiento',
+            'Crucero',
+            'Nueva Chicago',
         ];
         foreach ($teams as $team) {
             Team::create([
