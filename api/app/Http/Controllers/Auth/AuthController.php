@@ -81,16 +81,16 @@ class AuthController extends Controller
                 ];
 
                 $u = $this->userRepository->isUser($info, ['users.id', 'password']);
-                if (!$u->ability('admin', $request->type)) {
-                    return response()->error('Invalid Credentials', 401);
-                }
-
                 if (empty($u)) {
                     return response()->error('Invalid Credentials', 401);
                 }
 
                 if (!Hash::check($password, $u->password)) {
                     return response()->error('Wrong Password', 401);
+                }
+
+                if (!$u->ability('admin', $request->type)) {
+                    return response()->error('Invalid Credentials', 401);
                 }
 
                 $token = Token::add($u->id);

@@ -1,31 +1,38 @@
 <div data-ng-controller="HeaderCtrl">
-    <div class="container">
-        <header>
-            <div id="header-content">
-                <div id="logo"
-                     data-ng-class="vars.isLoggedIn() ? 'col-md-4 col-xs-12 col-sm-4 pull-left':'col-md-12 col-xs-12 col-sm-12 text-center'">
-                    <a href="#"><img class="img-responsive logo" ng-src="{{vars.getHeaderImage()}}"/></a>
+    <header>
+        <div class="navbar navbar-default navbar-fixed-top">
+            <nav class="navbar-collapse collapse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">PRODE</a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><a href="/season">Seasons <span class="sr-only">(current)</span></a></li>
+                            <li><a href="#">Link</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Separated link</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">One more separated link</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="clear"></div>
-            </div>
-        </header>
-    </div>
-    <ng-slide-push-menu position="left" button="push" data-ng-show="vars.isLoggedIn()">
-        <li data-ng-if="!vars.isMember()"><a target="_top" ui-sref-active="active" ui-sref="webinar" href="#" data-ng-class="">Webinar</a></li>
-        <li data-ng-if="!vars.isMember()">
-            <a target="_top" data-ng-if="!vars.isUSmember()" ui-sref-active="active" ui-sref="application" href="#">Get
-                Started</a>
-            <a target="_top" data-ng-if="vars.isUSmember()" ui-sref-active="active" ui-sref="get_started" href="#">Get
-                Started</a>
-        </li>
-        <li><a target="_top" ui-sref-active="active" ui-sref="success-steps" href="#">Success Steps</a></li>
-        <li><a target="_top" ui-sref-active="active" ui-sref="welcome" href="#">Welcome</a></li>
-        <li><a target="_top" ui-sref-active="active" ui-sref="links" href="#">Links</a></li>
-        <li><a target="_top" ui-sref-active="active" ui-sref="training" href="#">Training</a></li>
-        <li><a target="_top" ui-sref-active="active" ui-sref="resources" href="#">Resources</a></li>
-        <li><a target="_top" ui-sref-active="active" ui-sref="leads" href="#">Leads</a></li>
-        <li data-ng-show="vars.isAppCompleted()"><a target="_top" ui-sref="user.profile">Settings</a></li>
-        <li><a href="https://powerlifepro.zendesk.com/home" target="_blank">Support</a></li>
-        <li><a target="_top" ui-sref="logout">Logout</a></li>
-    </ng-slide-push-menu>
+            </nav>
+        </div>
+    </header>
 </div>

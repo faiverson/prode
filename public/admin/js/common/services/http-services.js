@@ -150,15 +150,70 @@ angular.module( 'app.http-services', [ 'app.site-configs', 'angular-jwt', 'app.s
             return $http.get( endpoint );
         }
     };
-} ] ).factory( 'ProspectService', [ '$http', '$q', '$site-configs', function ( $http, $q, $configs ) {
+} ] ).factory( 'SeasonService', [ '$http', '$site-configs', function ( $http, $configs ) {
     return {
-        get: function ( id ) {
-            var endpoint = $configs.API_BASE_URL + 'prospects/' + id;
+        get: function () {
+            var endpoint = $configs.API_BASE_URL + 'seasons';
             return $http.get( endpoint );
         },
         add: function ( data ) {
-            var endpoint = $configs.API_BASE_URL + 'prospects';
-            return $http.post( endpoint, data );
+            // var endpoint = $configs.API_BASE_URL + 'prospects';
+            // return $http.post(endpoint, data);
+        }
+    };
+} ] ).factory( 'FixtureService', [ '$http', '$site-configs', '$objects', function ( $http, $configs, $objects ) {
+    return {
+        get: function ( params ) {
+            var endpoint = $configs.API_BASE_URL + 'fixtures/';
+            if ( !params.hasOwnProperty( 'season_id' ) ) {
+                return false;
+            }
+            endpoint += params.season_id;
+            // delete params.season_id;
+            endpoint += '?' + $objects.serializeUrl( params );
+            return $http.get( endpoint );
+        }
+    };
+} ] ).service( 'CRUD', [ 'Pagination', '$site-configs', '$objects', 'Notification', function ( Pagination, $configs, $objects, Notification ) {
+    return {
+        init: function ( service, filters ) {
+            this.service = service;
+            this.filters = filters;
+            this.pagination = Pagination.init();
+            return this;
+        },
+        get: function ( filters ) {
+            filters = angular.isUndefined( filters ) ? {} : filters;
+            filters = angular.extend( this.filters, filters );
+            this.filters = filters;
+            var promese = this.service.get( filters );
+            promese.then( function ( response ) {
+                var result = response.data;
+                if ( result.success ) {
+                    Pagination.update( result.data );
+                }
+            }, function ( response ) {
+                Notification.error( $objects.error( response ) );
+            } );
+            return promese;
+        },
+        update: function () {
+            return this.get( {
+                'offset': this.pagination.current,
+                'limit': this.pagination.items
+            } );
+        },
+    };
+} ] ).service( 'Pagination', [ '$http', '$site-configs', function ( $http, $configs ) {
+    return {
+        init: function () {
+            this.total = 0;
+            this.current = 1;
+            this.items = 10;
+            return this;
+        },
+        update: function ( data ) {
+            this.total = data.total;
         }
     };
 } ] ).factory( 'httpRequestInterceptor', [ '$q', 'localStorageService', '$location', 'jwtHelper', function ( $q, localStorageService, $location, jwtHelper ) {

@@ -246,40 +246,6 @@ angular.module('app.shared-directives', [])
             }
         };
     }])
-    .directive('csvDownload', ['$site-configs', '$objects', '$window', '$timeout', 'UserService', function ($configs, $objects, $window, $timeout, UserService) {
-        return {
-            restrict: 'A',
-            scope: {csvUid: '@', csvType: '@', getFilename: '&', filters: '='},
-            link: function (scope, element, attrs) {
-                var downloadFile = function downloadFile(csv) {
-                    var filename = scope.getFilename()();
-                    if ($window.navigator.msSaveOrOpenBlob) {
-                        var blob = new Blob([decodeURIComponent(encodeURI(csv))], {
-                            type: "text/csv;charset=utf-8;"
-                        });
-                        $window.navigator.msSaveBlob(blob, filename);
-                    } else {
-                        var link = angular.element('<a/>');
-                        link.attr({
-                            href: 'data:attachment/csv;base64,' + encodeURI($window.btoa(csv)),
-                            target: '_blank',
-                            download: filename
-                        })[0].click();
-                        $timeout(function () {
-                            link.remove();
-                        }, 50);
-                    }
-                };
-
-                element.bind('click', function (e) {
-                    UserService.getAll(scope.csvUid, scope.csvType, {filter: scope.filters}).then(function (csv) {
-                        downloadFile(csv);
-                    });
-                    scope.$apply();
-                });
-            }
-        };
-    }])
     .directive('iframeSetDimensionsOnload', [function () {
         return {
             restrict: 'A',
@@ -292,40 +258,6 @@ angular.module('app.shared-directives', [])
                     element.css('width', iFrameWidth);
                     element.css('height', iFrameHeight);
                 });
-            }
-        };
-    }])
-    .directive('betaTimer', ['$site-configs', '$objects', '$interval', function ($configs, $objects, $interval) {
-        return {
-            restrict: 'E',
-            //transclude: true,
-            scope: {date: '@', align: '@'},
-            template: '<div class="pull-{{betaRelease.align}}">' +
-            '<span>days <i>{{betaRelease.duration.days() | pad}}</i></span>' +
-            '<span>hours <i>{{betaRelease.duration.hours() | pad}}</i></span>' +
-            '<span>min <i>{{betaRelease.duration.minutes() | pad}}</i></span>' +
-            '<span>sec <i>{{betaRelease.duration.seconds() | pad}}</i></span>' +
-            '</div>',
-            link: function (scope, element, attrs) {
-
-                scope.betaRelease = {};
-                scope.betaRelease.tz = 'America/New_York';
-                scope.betaRelease.align = scope.align;
-                scope.betaRelease.date = moment.tz(scope.date, scope.betaRelease.tz);
-                scope.betaRelease.diff = scope.betaRelease.date.diff(moment().tz(scope.betaRelease.tz));
-                scope.betaRelease.duration = moment.duration(scope.betaRelease.diff);
-                scope.betaRelease.interval = 1000;
-
-                scope.startTimer = function () {
-                    scope.betaRelease.stopTime = $interval(scope.updateTime, scope.betaRelease.interval);
-                };
-
-                scope.updateTime = function () {
-                    scope.betaRelease.diff = scope.betaRelease.date.diff(moment().tz(scope.betaRelease.tz));
-                    scope.betaRelease.duration = moment.duration(scope.betaRelease.diff);
-                };
-
-                scope.startTimer();
             }
         };
     }]);

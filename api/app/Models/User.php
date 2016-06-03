@@ -2,14 +2,29 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Support\Facades\Cache;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Illuminate\Database\Eloquent\Model;
 use Sofa\Eloquence\Eloquence;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Sofa\Eloquence\Mappable;
+use Sofa\Eloquence\Mutable;
+use Crypt;
 
-class User extends Model
+class User extends Model implements AuthenticatableContract,
+                                    AuthorizableContract,
+                                    CanResetPasswordContract
 {
-    use EntrustUserTrait;
+    use Authenticatable, CanResetPassword, SoftDeletes, EntrustUserTrait {
+        SoftDeletes::restore as sfRestore;
+        EntrustUserTrait::restore as euRestore;
+
+    }
 
     /**
      * The database table used by the model.
@@ -44,6 +59,11 @@ class User extends Model
     protected $appends = array('full_name');
 
     protected $hidden = ['id', 'password', 'remember_token', 'active', 'updated_at', 'deleted_at'];
+
+    public function restore() {
+        $this->sfRestore();
+        Cache::tags(Config::get('entrust.role_user_table'))->flush();
+    }
 
     public function setPhoneAttribute($value)
     {

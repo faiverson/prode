@@ -95,8 +95,8 @@ app.run(["$templateCache", function($templateCache) {
     "                <br>\n" +
     "                <form autocomplete=\"off\" name=\"loginForm\" novalidate=\"novalidate\" data-ng-submit=\"login()\" class=\"form-signin\">\n" +
     "                    <div class=\"control-group\">\n" +
-    "                        <input data-ng-minlength=\"4\" data-ng-model=\"user.email\" class=\"form-control\"\n" +
-    "                               placeholder=\"Enter Your Email\" required type=\"email\" name=\"email\">\n" +
+    "                        <input data-ng-minlength=\"4\" data-ng-model=\"user.username\" class=\"form-control\"\n" +
+    "                               placeholder=\"Enter Username\" required type=\"text\" name=\"username\">\n" +
     "                    </div>\n" +
     "                    <div class=\"control-group\">\n" +
     "                        <input data-ng-minlength=\"4\" data-ng-model=\"user.password\" class=\"form-control\" autofocus\n" +
@@ -379,73 +379,123 @@ try { app = angular.module("templates-app"); }
 catch(err) { app = angular.module("templates-app", []); }
 app.run(["$templateCache", function($templateCache) {
   "use strict";
-  $templateCache.put("modules/captures/captures.tpl.html",
-    "<form method=\"post\">\n" +
-    "    <div id=\"body\">\n" +
-    "        <section class=\"content-wrapper main-content clear-fix\" style=\"margin:auto;\">\n" +
-    "            <header style=\"border-bottom:none\">\n" +
-    "                <div id=\"headerwrap\">\n" +
-    "                    <div id=\"logo\">\n" +
-    "                        <a href=\"javascript:void(0)\" id=\"logow\"><img src=\"/assets/images/logo.png\"></a>\n" +
-    "                    </div>\n" +
-    "                    <div id=\"nav\">\n" +
-    "                        <a class=\"button bg-blue\" href=\"http://credit-control.net/app/Login\" id=\"login\">LOGIN</a>\n" +
-    "                        <a class=\"button bg-yellow\" href=\"http://credit-control.net/app/Signup\" id=\"signup\">SIGN UP</a>\n" +
+  $templateCache.put("modules/dashboard/dashboard.tpl.html",
+    "<div data-ng-include=\"'modules/shared/header-general/header-general.tpl.html'\"></div>\n" +
+    "<div class=\"container\">\n" +
+    "    <div id=\"login-wrap\" class=\"container vertical-center\">\n" +
+    "        <div class=\"row\">\n" +
+    "            <div class=\"fu apt\">\n" +
+    "                <div class=\"gq gg ala\">\n" +
+    "                    <div class=\"apu ano\">\n" +
+    "                        <div class=\"alz\">\n" +
+    "                            <span class=\"anj\">Page views</span>\n" +
+    "                            <h2 class=\"ani\">\n" +
+    "                                12,938\n" +
+    "                                <small class=\"ank anl\">5%</small>\n" +
+    "                            </h2>\n" +
+    "                            <hr class=\"ans akt\">\n" +
+    "                        </div>\n" +
+    "                        <canvas id=\"sparkline1\" width=\"378\" height=\"94\" class=\"apv\" data-chart=\"spark-line\" data-value=\"[{data:[28,68,41,43,96,45,100]}]\" data-labels=\"['a','b','c','d','e','f','g']\" style=\"width: 189px; height: 47px;\"></canvas>\n" +
     "                    </div>\n" +
     "                </div>\n" +
-    "            </header>\n" +
-    "            <div id=\"head-subinfo\" class=\"landing\">\n" +
-    "                <div id=\"subnav-wrapper\">\n" +
-    "                    <span id=\"subnav-attention\" class=\"subnav-title\">Attention!</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n" +
-    "                    You’re Invited To The Credit Control Launch!\n" +
+    "                <div class=\"gq gg ala\">\n" +
+    "                    <div class=\"apu anr\">\n" +
+    "                        <div class=\"alz\">\n" +
+    "                            <span class=\"anj\">Downloads</span>\n" +
+    "                            <h2 class=\"ani\">\n" +
+    "                                758\n" +
+    "                                <small class=\"ank anm\">1.3%</small>\n" +
+    "                            </h2>\n" +
+    "                            <hr class=\"ans akt\">\n" +
+    "                        </div>\n" +
+    "                        <canvas id=\"sparkline1\" width=\"378\" height=\"94\" class=\"apv\" data-chart=\"spark-line\" data-value=\"[{data:[4,34,64,27,96,50,80]}]\" data-labels=\"['a', 'b','c','d','e','f','g']\" style=\"width: 189px; height: 47px;\"></canvas>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "                <div class=\"gq gg ala\">\n" +
+    "                    <div class=\"apu anp\">\n" +
+    "                        <div class=\"alz\">\n" +
+    "                            <span class=\"anj\">Sign-ups</span>\n" +
+    "                            <h2 class=\"ani\">\n" +
+    "                                1,293\n" +
+    "                                <small class=\"ank anl\">6.75%</small>\n" +
+    "                            </h2>\n" +
+    "                            <hr class=\"ans akt\">\n" +
+    "                        </div>\n" +
+    "                        <canvas id=\"sparkline1\" width=\"378\" height=\"94\" class=\"apv\" data-chart=\"spark-line\" data-value=\"[{data:[12,38,32,60,36,54,68]}]\" data-labels=\"['a', 'b','c','d','e','f','g']\" style=\"width: 189px; height: 47px;\"></canvas>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "                <div class=\"gq gg ala\">\n" +
+    "                    <div class=\"apu anq\">\n" +
+    "                        <div class=\"alz\">\n" +
+    "                            <span class=\"anj\">Downloads</span>\n" +
+    "                            <h2 class=\"ani\">\n" +
+    "                                758\n" +
+    "                                <small class=\"ank anm\">1.3%</small>\n" +
+    "                            </h2>\n" +
+    "                            <hr class=\"ans akt\">\n" +
+    "                        </div>\n" +
+    "                        <canvas id=\"sparkline1\" width=\"378\" height=\"94\" class=\"apv\" data-chart=\"spark-line\" data-value=\"[{data:[43,48,52,58,50,95,100]}]\" data-labels=\"['a', 'b','c','d','e','f','g']\" style=\"width: 189px; height: 47px;\"></canvas>\n" +
+    "                    </div>\n" +
     "                </div>\n" +
     "            </div>\n" +
-    "\n" +
-    "            <div id=\"wrapper\">\n" +
-    "                <section>\n" +
-    "                    <h1>Discover The Top Business Of 2016</h1>\n" +
-    "                    <div id=\"video-landing\">\n" +
-    "                        <iframe id=\"video-player\" type=\"text/html\" width=\"750\" height=\"420\" src=\"http://www.youtube.com/embed/RTb6xkKCscM?autoplay=0&amp;controls=0&amp;showinfo=0\" frameborder=\"0\"></iframe>\n" +
-    "                    </div>\n" +
-    "                </section>\n" +
-    "                <section id=\"landing-links\">\n" +
-    "                    <div class=\"align-center\">\n" +
-    "                        <a href=\"#\" data-ng-click=\"openProviderReview()\" class=\"button bg-yellow\" id=\"signup2\">Click here to get instant access</a>\n" +
-    "                        <span>Click <a href=\"http://credit-control.net/app/Login\" id=\"login2\">here to login</a> if you're already a member</span>\n" +
-    "                    </div>\n" +
-    "                </section>\n" +
-    "                <div class=\"spacer-lined\"></div>\n" +
-    "                <section id=\"landing-text\" class=\"centeredboxes clearfix\">\n" +
-    "                    <div class=\"left\">Folks - obviously, the income examples shown are extraordinary. The income claims presented are not intended to serve as a guarantee of income. Instead, they're designed to give you an idea of what's possible. Success in this business - as with anything, requires leadership, hard work and dedication.</div>\n" +
-    "                    <div class=\"right\">Since we want to help you make an informed decision, we've gone above and beyond with our income disclosure document. If you want to see the average earnings, please see our Full Income Disclosure. Make Sense?</div>\n" +
-    "                </section>\n" +
-    "                <footer>\n" +
-    "                    <div id=\"footer-links\">\n" +
-    "                        <a href=\"javascript:void(0)\">Privacy</a>\n" +
-    "                        <a href=\"javascript:void(0)\">Terms</a>\n" +
-    "                        <a href=\"javascript:void(0)\">Disclosure</a>\n" +
-    "                        <a href=\"javascript:void(0)\">Compilance </a>\n" +
-    "                        <a href=\"javascript:void(0)\">Affiliates</a>\n" +
-    "                        <a href=\"javascript:void(0)\">Whitelist</a>\n" +
-    "                        <a href=\"javascript:void(0)\">Refunds</a>\n" +
-    "                    </div>\n" +
-    "                    <div>\n" +
-    "                        Copyright © 2016 Credit Control.\n" +
-    "                    </div>\n" +
-    "                    <div id=\"footer-social\">\n" +
-    "                        <a href=\"javascript:void(0)\"><img src=\"/assets/images/social-fb.png\"></a>\n" +
-    "                        <a href=\"javascript:void(0)\"><img src=\"/assets/images/social-twitter.png\"></a>\n" +
-    "                    </div>\n" +
-    "                </footer>\n" +
-    "            </div>\n" +
-    "\n" +
-    "\n" +
-    "        </section>\n" +
+    "        </div>\n" +
     "    </div>\n" +
-    "</form>\n" +
-    "<script type=\"text/ng-template\" id=\"prospect-modal.tpl.html\">\n" +
+    "</div>\n" +
+    "<div data-ng-include=\"'modules/shared/footer/footer.tpl.html'\"></div>");
+}]);
+})();
+
+(function(module) {
+try { app = angular.module("templates-app"); }
+catch(err) { app = angular.module("templates-app", []); }
+app.run(["$templateCache", function($templateCache) {
+  "use strict";
+  $templateCache.put("modules/fixture/fixture.tpl.html",
+    "<div data-ng-include=\"'modules/shared/header-general/header-general.tpl.html'\"></div>\n" +
+    "<div class=\"container\">\n" +
+    "    <h1>Fixture</h1>\n" +
+    "    <table class=\"table\">\n" +
+    "        <thead>\n" +
+    "        <tr>\n" +
+    "            <th>#</th>\n" +
+    "            <th sort-column=\"author\" on-sort=\"getSeason()\" sort-data=\"sortBy\">Fixture</th>\n" +
+    "            <th>Start</th>\n" +
+    "            <th>End</th>\n" +
+    "            <th>Actions</th>\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody>\n" +
+    "        <tr data-ng-repeat=\"fixture in fixtures\">\n" +
+    "            <td data-ng-bind=\"fixture.number\"></td>\n" +
+    "            <td data-ng-bind=\"fixture.start_at\"></td>\n" +
+    "            <td data-ng-bind=\"fixture.end_at\"></td>\n" +
+    "            <td data-ng-bind=\"fixture.end_at\"></td>\n" +
+    "            <!--<td>-->\n" +
+    "                <!--<a ui-sref=\"{{fixture.id}}\" class=\"btn btn-warning\">Fixture</a>-->\n" +
+    "            <!--</td>-->\n" +
+    "        </tr>\n" +
     "\n" +
-    "</script>");
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "    <div class=\"table-nav row\" ng-if=\"table.pagination.total >= table.pagination.items\">\n" +
+    "        <div class=\"col-md-8\">\n" +
+    "            <uib-pagination direction-links=\"false\"\n" +
+    "                            total-items=\"table.pagination.total\"\n" +
+    "                            items-per-page=\"table.pagination.items\"\n" +
+    "                            ng-model=\"table.pagination.current\"\n" +
+    "                            ng-change=\"update()\"\n" +
+    "                            num-pages=\"smallnumPages\"></uib-pagination>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-md-4\">\n" +
+    "            <uib-pager total-items=\"table.pagination.total\"\n" +
+    "                       items-per-page=\"table.pagination.items\"\n" +
+    "                       ng-model=\"table.pagination.current\"\n" +
+    "                       ng-change=\"update()\">\n" +
+    "            </uib-pager>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "<div data-ng-include=\"'modules/shared/footer/footer.tpl.html'\"></div>");
 }]);
 })();
 
@@ -561,6 +611,61 @@ app.run(["$templateCache", function($templateCache) {
     "            data-ng-click=\"save()\">Submit\n" +
     "    </button>\n" +
     "</div>");
+}]);
+})();
+
+(function(module) {
+try { app = angular.module("templates-app"); }
+catch(err) { app = angular.module("templates-app", []); }
+app.run(["$templateCache", function($templateCache) {
+  "use strict";
+  $templateCache.put("modules/season/season.tpl.html",
+    "<div data-ng-include=\"'modules/shared/header-general/header-general.tpl.html'\"></div>\n" +
+    "<div class=\"container\">\n" +
+    "    <h1>Season\n" +
+    "        <!--<button class=\"btn btn-sm btn-primary pull-right\" ui-sref=\"testimonials.new\">NEW TESTIMONIAL</button>-->\n" +
+    "    </h1>\n" +
+    "    <table class=\"table\">\n" +
+    "        <thead>\n" +
+    "        <tr>\n" +
+    "            <th>#</th>\n" +
+    "            <th sort-column=\"author\" on-sort=\"getSeason()\" sort-data=\"sortBy\">Season</th>\n" +
+    "            <th>Actions</th>\n" +
+    "        </tr>\n" +
+    "        </thead>\n" +
+    "        <tbody>\n" +
+    "        <tr data-ng-repeat=\"season in seasons\">\n" +
+    "            <td>{{ season.id}}</td>\n" +
+    "            <td data-ng-bind=\"season.name\"></td>\n" +
+    "            <td>\n" +
+    "                <a href=\"/fixture/{{season.id}}\" class=\"btn btn-warning\">Fixture</a>\n" +
+    "                        <!--<li><a ui-sref=\"testimonials.edit({id:testimonial.id})\">Edit</a></li>-->\n" +
+    "                        <!--<li><a href=\"#\" data-ng-click=\"openDeleteConfirm(testimonial.id)\">Remove</a></li>-->\n" +
+    "            </td>\n" +
+    "        </tr>\n" +
+    "\n" +
+    "        </tbody>\n" +
+    "    </table>\n" +
+    "    <div class=\"table-nav row\">\n" +
+    "        <div class=\"col-md-8\">\n" +
+    "            <uib-pagination direction-links=\"false\"\n" +
+    "                            total-items=\"pagination.totalItems\"\n" +
+    "                            ng-model=\"pagination.currentPage\"\n" +
+    "                            items-per-page=\"pagination.itemsPerPage\"\n" +
+    "                            ng-change=\"pagination.pageChange()\"\n" +
+    "                            num-pages=\"smallnumPages\"></uib-pagination>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"col-md-4\">\n" +
+    "            <uib-pager total-items=\"pagination.totalItems\"\n" +
+    "                       items-per-page=\"pagination.itemsPerPage\"\n" +
+    "                       ng-model=\"pagination.currentPage\"\n" +
+    "                       ng-change=\"pagination.pageChange()\">\n" +
+    "            </uib-pager>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "<div data-ng-include=\"'modules/shared/footer/footer.tpl.html'\"></div>");
 }]);
 })();
 
@@ -708,38 +813,17 @@ try { app = angular.module("templates-app"); }
 catch(err) { app = angular.module("templates-app", []); }
 app.run(["$templateCache", function($templateCache) {
   "use strict";
-  $templateCache.put("modules/shared/header-general/header-general.tpl.html",
-    "<div data-ng-controller=\"HeaderCtrl\">\n" +
+  $templateCache.put("modules/shared/footer/footer.tpl.html",
+    "<div class=\"container-fluid footer-wrap\">\n" +
     "    <div class=\"container\">\n" +
-    "        <header>\n" +
-    "            <div id=\"header-content\">\n" +
-    "                <div id=\"logo\"\n" +
-    "                     data-ng-class=\"vars.isLoggedIn() ? 'col-md-4 col-xs-12 col-sm-4 pull-left':'col-md-12 col-xs-12 col-sm-12 text-center'\">\n" +
-    "                    <a href=\"#\"><img class=\"img-responsive logo\" ng-src=\"{{vars.getHeaderImage()}}\"/></a>\n" +
-    "                </div>\n" +
-    "                <div class=\"clear\"></div>\n" +
-    "            </div>\n" +
-    "        </header>\n" +
+    "        <div class=\"col-md-12 text-center\">\n" +
+    "            <footer>\n" +
+    "                <div class=\"col-md-12 col-xs-12\"><span>COPYRIGHT &copy; Prode - ALL RIGHTS RESERVED.</span></div>\n" +
+    "            </footer>\n" +
+    "        </div>\n" +
     "    </div>\n" +
-    "    <ng-slide-push-menu position=\"left\" button=\"push\" data-ng-show=\"vars.isLoggedIn()\">\n" +
-    "        <li data-ng-if=\"!vars.isMember()\"><a target=\"_top\" ui-sref-active=\"active\" ui-sref=\"webinar\" href=\"#\" data-ng-class=\"\">Webinar</a></li>\n" +
-    "        <li data-ng-if=\"!vars.isMember()\">\n" +
-    "            <a target=\"_top\" data-ng-if=\"!vars.isUSmember()\" ui-sref-active=\"active\" ui-sref=\"application\" href=\"#\">Get\n" +
-    "                Started</a>\n" +
-    "            <a target=\"_top\" data-ng-if=\"vars.isUSmember()\" ui-sref-active=\"active\" ui-sref=\"get_started\" href=\"#\">Get\n" +
-    "                Started</a>\n" +
-    "        </li>\n" +
-    "        <li><a target=\"_top\" ui-sref-active=\"active\" ui-sref=\"success-steps\" href=\"#\">Success Steps</a></li>\n" +
-    "        <li><a target=\"_top\" ui-sref-active=\"active\" ui-sref=\"welcome\" href=\"#\">Welcome</a></li>\n" +
-    "        <li><a target=\"_top\" ui-sref-active=\"active\" ui-sref=\"links\" href=\"#\">Links</a></li>\n" +
-    "        <li><a target=\"_top\" ui-sref-active=\"active\" ui-sref=\"training\" href=\"#\">Training</a></li>\n" +
-    "        <li><a target=\"_top\" ui-sref-active=\"active\" ui-sref=\"resources\" href=\"#\">Resources</a></li>\n" +
-    "        <li><a target=\"_top\" ui-sref-active=\"active\" ui-sref=\"leads\" href=\"#\">Leads</a></li>\n" +
-    "        <li data-ng-show=\"vars.isAppCompleted()\"><a target=\"_top\" ui-sref=\"user.profile\">Settings</a></li>\n" +
-    "        <li><a href=\"https://powerlifepro.zendesk.com/home\" target=\"_blank\">Support</a></li>\n" +
-    "        <li><a target=\"_top\" ui-sref=\"logout\">Logout</a></li>\n" +
-    "    </ng-slide-push-menu>\n" +
-    "</div>");
+    "</div>\n" +
+    "");
 }]);
 })();
 
@@ -748,16 +832,44 @@ try { app = angular.module("templates-app"); }
 catch(err) { app = angular.module("templates-app", []); }
 app.run(["$templateCache", function($templateCache) {
   "use strict";
-  $templateCache.put("modules/shared/footer/footer.tpl.html",
-    "<div class=\"container-fluid footer-wrap\">\n" +
-    "    <div class=\"container\">\n" +
-    "        <div class=\"col-md-12\">\n" +
-    "            <footer>\n" +
-    "                <div class=\"col-md-5 col-xs-12 align-left\"><span>COPYRIGHT &copy; Prode - ALL RIGHTS RESERVED.</span></div>\n" +
-    "            </footer>\n" +
+  $templateCache.put("modules/shared/header-general/header-general.tpl.html",
+    "<div data-ng-controller=\"HeaderCtrl\">\n" +
+    "    <header>\n" +
+    "        <div class=\"navbar navbar-default navbar-fixed-top\">\n" +
+    "            <nav class=\"navbar-collapse collapse\">\n" +
+    "                <div class=\"container-fluid\">\n" +
+    "                    <div class=\"navbar-header\">\n" +
+    "                        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\">\n" +
+    "                            <span class=\"sr-only\">Toggle navigation</span>\n" +
+    "                            <span class=\"icon-bar\"></span>\n" +
+    "                            <span class=\"icon-bar\"></span>\n" +
+    "                            <span class=\"icon-bar\"></span>\n" +
+    "                        </button>\n" +
+    "                        <a class=\"navbar-brand\" href=\"#\">PRODE</a>\n" +
+    "                    </div>\n" +
+    "\n" +
+    "                    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n" +
+    "                        <ul class=\"nav navbar-nav\">\n" +
+    "                            <li><a href=\"/season\">Seasons <span class=\"sr-only\">(current)</span></a></li>\n" +
+    "                            <li><a href=\"#\">Link</a></li>\n" +
+    "                            <li class=\"dropdown\">\n" +
+    "                                <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">Dropdown <span class=\"caret\"></span></a>\n" +
+    "                                <ul class=\"dropdown-menu\" role=\"menu\">\n" +
+    "                                    <li><a href=\"#\">Action</a></li>\n" +
+    "                                    <li><a href=\"#\">Another action</a></li>\n" +
+    "                                    <li><a href=\"#\">Something else here</a></li>\n" +
+    "                                    <li class=\"divider\"></li>\n" +
+    "                                    <li><a href=\"#\">Separated link</a></li>\n" +
+    "                                    <li class=\"divider\"></li>\n" +
+    "                                    <li><a href=\"#\">One more separated link</a></li>\n" +
+    "                                </ul>\n" +
+    "                            </li>\n" +
+    "                        </ul>\n" +
+    "                    </div>\n" +
+    "                </div>\n" +
+    "            </nav>\n" +
     "        </div>\n" +
-    "    </div>\n" +
-    "</div>\n" +
-    "");
+    "    </header>\n" +
+    "</div>");
 }]);
 })();

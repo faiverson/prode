@@ -8,14 +8,9 @@ final class Role extends EntrustRole
 
 	protected $hidden = ['id', 'description', 'updated_at', 'created_at', 'pivot'];
 
-//	protected $maps = [
-//		'role_id' => 'id',
-//	];
-
 	protected $appends = array('role_id');
 
 	protected $fillable = ['name', 'display_name', 'description'];
-
 
 	public function permissions()
 	{

@@ -1,6 +1,6 @@
 angular.module( 'app.auth', [ 'ui.router', 'ngCookies', 'ngPasswordMasker' ] ).config( [ "$stateProvider", function config( $stateProvider ) {
     $stateProvider.state( 'login', {
-        url: '/login?email',
+        url: '/login',
         templateUrl: 'modules/auth/login.tpl.html',
         controller: 'LoginCtrl',
         data: {
@@ -90,7 +90,12 @@ angular.module( 'app.auth', [ 'ui.router', 'ngCookies', 'ngPasswordMasker' ] ).c
     };
     $scope.login = function () {
         if ( $scope.loginForm.$valid ) {
-            AuthService.login( $scope.user.email, $scope.user.password ).then( vm.successLogin, vm.errorLogin );
+            AuthService.login( $scope.user.username, $scope.user.password ).then( function ( response ) {
+                var user = AuthService.getLoggedInUser();
+                $state.go( 'dashboard' );
+            }, function ( result ) {
+                Notification.error( result.error );
+            } );
         } else {
             Notification.warning( 'Please check the information provided!' );
         }
@@ -103,19 +108,6 @@ angular.module( 'app.auth', [ 'ui.router', 'ngCookies', 'ngPasswordMasker' ] ).c
         modalInstance.result.then( function ( email ) {
             Notification.success( 'An E-mail has been sent to ' + email + ' with instructions to reset the Password!' );
         } );
-    };
-    vm.successLogin = function () {
-        var user = AuthService.getLoggedInUser(),
-            goTo = '',
-            params = {};
-        if ( user.member_type === 'user' ) {
-            $state.go( 'welcome' );
-            return;
-        }
-        $state.go( 'prospect_router' );
-    };
-    vm.errorLogin = function ( result ) {
-        Notification.error( result.error );
     };
 } ] ).controller( 'SignUpCtrl', [ '$scope', '$state', 'AuthService', 'Notification', 'pageSettings', function ( $scope, $state, AuthService, Notification, pageSettings ) {
     $scope.auth = {};

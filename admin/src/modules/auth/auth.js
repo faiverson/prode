@@ -2,7 +2,7 @@ angular.module('app.auth', ['ui.router', 'ngCookies', 'ngPasswordMasker'])
     .config(function config($stateProvider) {
         $stateProvider
             .state('login', {
-                url: '/login?email',
+                url: '/login',
                 templateUrl: 'modules/auth/login.tpl.html',
                 controller: 'LoginCtrl',
                 data: {
@@ -99,8 +99,13 @@ angular.module('app.auth', ['ui.router', 'ngCookies', 'ngPasswordMasker'])
 
         $scope.login = function () {
             if ($scope.loginForm.$valid) {
-                AuthService.login($scope.user.email, $scope.user.password)
-                    .then(vm.successLogin, vm.errorLogin);
+                AuthService.login($scope.user.username, $scope.user.password)
+                    .then(function (response) {
+                        var user = AuthService.getLoggedInUser();
+                        $state.go('dashboard');
+                    }, function (result) {
+                        Notification.error(result.error);
+                    });
             } else {
                 Notification.warning('Please check the information provided!');
             }
@@ -117,22 +122,8 @@ angular.module('app.auth', ['ui.router', 'ngCookies', 'ngPasswordMasker'])
                 Notification.success('An E-mail has been sent to ' + email + ' with instructions to reset the Password!');
             });
         };
-
-        vm.successLogin = function () {
-            var user = AuthService.getLoggedInUser(), goTo = '', params = {};
-
-            if (user.member_type === 'user') {
-                $state.go('welcome');
-                return;
-            }
-
-            $state.go('prospect_router');
-        };
-
-        vm.errorLogin = function (result) {
-            Notification.error(result.error);
-        };
     }])
+
     .controller('SignUpCtrl', ['$scope', '$state', 'AuthService', 'Notification', 'pageSettings', function ($scope, $state, AuthService, Notification, pageSettings) {
         
         $scope.auth = {};
@@ -163,6 +154,7 @@ angular.module('app.auth', ['ui.router', 'ngCookies', 'ngPasswordMasker'])
             }
         };
     }])
+
     .controller('ForgotPasswordCtrl', ['$scope', '$uibModalInstance', 'AuthService', 'Notification', function ($scope, $uibModalInstance, AuthService, Notification) {
         $scope.close = function () {
             $uibModalInstance.dismiss('close');
@@ -178,6 +170,7 @@ angular.module('app.auth', ['ui.router', 'ngCookies', 'ngPasswordMasker'])
                 });
         };
     }])
+
     .controller('DoLoginCtrl', ['$scope', 'AuthService', '$state', 'Notification', function ($scope, AuthService, $state, Notification) {
 
         var vm = this;
@@ -211,6 +204,7 @@ angular.module('app.auth', ['ui.router', 'ngCookies', 'ngPasswordMasker'])
 
         vm.init();
     }])
+
     .controller('LogoutController', ['$scope', 'AuthService', '$state', 'Notification', function ($scope, AuthService, $state, Notification) {
         var vm = this;
 
@@ -218,6 +212,7 @@ angular.module('app.auth', ['ui.router', 'ngCookies', 'ngPasswordMasker'])
             $state.go('login');
         });
     }])
+
     .controller('ResetPasswordCtrl', ['$scope', 'AuthService', 'Notification', '$state', '$stateParams', function ($scope, AuthService, Notification, $state, $stateParams) {
         $scope.send = function () {
 

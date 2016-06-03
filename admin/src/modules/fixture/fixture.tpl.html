@@ -1,0 +1,45 @@
+<div data-ng-include="'modules/shared/header-general/header-general.tpl.html'"></div>
+<div class="container">
+    <h1>Fixture</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th sort-column="author" on-sort="getSeason()" sort-data="sortBy">Fixture</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-ng-repeat="fixture in fixtures">
+            <td data-ng-bind="fixture.number"></td>
+            <td data-ng-bind="fixture.start_at"></td>
+            <td data-ng-bind="fixture.end_at"></td>
+            <td data-ng-bind="fixture.end_at"></td>
+            <!--<td>-->
+                <!--<a ui-sref="{{fixture.id}}" class="btn btn-warning">Fixture</a>-->
+            <!--</td>-->
+        </tr>
+
+        </tbody>
+    </table>
+    <div class="table-nav row" ng-if="table.pagination.total >= table.pagination.items">
+        <div class="col-md-8">
+            <uib-pagination direction-links="false"
+                            total-items="table.pagination.total"
+                            items-per-page="table.pagination.items"
+                            ng-model="table.pagination.current"
+                            ng-change="update()"
+                            num-pages="smallnumPages"></uib-pagination>
+        </div>
+        <div class="col-md-4">
+            <uib-pager total-items="table.pagination.total"
+                       items-per-page="table.pagination.items"
+                       ng-model="table.pagination.current"
+                       ng-change="update()">
+            </uib-pager>
+        </div>
+    </div>
+</div>
+<div data-ng-include="'modules/shared/footer/footer.tpl.html'"></div>

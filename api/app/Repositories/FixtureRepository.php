@@ -1,27 +1,27 @@
 <?php namespace App\Repositories;
 
-use App\Repositories\Contracts\SeasonRepositoryInterface;
+use App\Models\Fixture;
+use App\Repositories\Contracts\FixtureRepositoryInterface;
 use App\Repositories\Abstracts\Repository as AbstractRepository;
-use App\Models\Season;
 
-class SeasonRepository extends AbstractRepository implements SeasonRepositoryInterface
+class FixtureRepository extends AbstractRepository implements FixtureRepositoryInterface
 {
 	public function model()
 	{
-		return Season::class;
+		return Fixture::class;
 	}
 
 	public function setFilters($query, $filters)
 	{
 		foreach($filters as $key => $w) {
 			switch($key) {
-				case 'name':
-					$query = $query->where('name', 'LIKE', $w . '%');
-					break;
-				case 'league_id':
-					$query = $query->where('league_id', $w);
+				case 'number':
+					$query = $query->where('number', $w);
 					break;
 				case 'season_id':
+					$query = $query->where('season_id', $w);
+					break;
+				case 'fixture_id':
 					$query = $query->where('id', $w);
 					break;
 			}

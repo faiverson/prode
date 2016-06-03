@@ -1,5 +1,5 @@
-angular.module( 'app.views', [ 'app.captures', 'ui.router' ] );
-angular.module( 'app', [ 'templates-app', 'app.auth', 'app.header-general',
+angular.module( 'app.views', [ 'ui.router' ] );
+angular.module( 'app', [ 'templates-app', 'app.header-general', 'app.auth', 'app.dashboard', 'app.season', 'app.fixture',
     // 'app.users',
     'ui-notification', 'ui.bootstrap', 'ui.bootstrap.tpls', 'app.confirmation-popup', 'LocalStorageModule',
     // 'ngAnimate',
