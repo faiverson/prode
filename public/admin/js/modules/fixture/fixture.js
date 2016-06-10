@@ -6,10 +6,10 @@ angular.module( 'app.fixture', [ 'ui.router' ] ).config( [ "$stateProvider", fun
         data: {
             pageTitle: 'Prode - Fixture',
             bodyClass: 'dashboard',
-            isPublic: true
+            isPublic: false
         }
     } );
-} ] ).controller( 'FixtureCtrl', [ '$scope', 'CRUD', 'FixtureService', '$stateParams', function ( $scope, CRUD, FixtureService, $stateParams ) {
+} ] ).controller( 'FixtureCtrl', [ '$scope', 'CRUD', 'FixtureService', '$stateParams', 'Notification', function ( $scope, CRUD, FixtureService, $stateParams, Notification ) {
     var filters = angular.isDefined( $stateParams.season_id ) ? {
         'season_id': $stateParams.season_id
     } : {};
@@ -17,12 +17,24 @@ angular.module( 'app.fixture', [ 'ui.router' ] ).config( [ "$stateProvider", fun
         fixtures: {},
         table: CRUD.init( FixtureService, filters )
     } );
+    $scope.rangeDates = {
+        'autoApply': true,
+        'timePicker': true,
+        'opens': "left",
+        'drops': "down",
+        'timePickerSeconds': false
+    };
     $scope.update = function () {
-        $scope.table.update().then( function ( response ) {
+        $scope.table.refresh().then( function ( response ) {
             var result = response.data;
             if ( result.success ) {
                 $scope.fixtures = result.data.fixtures;
             }
+        } );
+    };
+    $scope.save_fixture = function ( fixture ) {
+        $scope.table.save( fixture ).then( function ( response ) {
+            Notification.success( 'Fixture updated!' );
         } );
     };
     $scope.update();

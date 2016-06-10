@@ -8,7 +8,7 @@ angular.module('app.season', ['ui.router'])
                 data: {
                     pageTitle: 'Prode - Season',
                     bodyClass: 'dashboard',
-                    isPublic: true
+                    isPublic: false
                 }
             });
     })

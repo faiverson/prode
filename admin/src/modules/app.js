@@ -7,7 +7,6 @@ angular.module('app', [
     'app.dashboard',
     'app.season',
     'app.fixture',
-    // 'app.users',
     'ui-notification',
     'ui.bootstrap',
     'ui.bootstrap.tpls',
@@ -18,7 +17,6 @@ angular.module('app', [
     'xtForm',
     'ngAutodisable',
     // 'smoothScroll',
-    // 'app.modal-prospect'
     'app.http-services',
     'app.shared-directives',
     'app.shared-filters'
@@ -73,7 +71,7 @@ angular.module('app', [
             var isPublic = toState.data.isPublic;
             checkTokenExp();
 
-            if (!AuthService.isLoggedIn() && toState.name !== 'login' && angular.isUndefined(isPublic)) {
+            if (!AuthService.isLoggedIn() && toState.name !== 'login' && (angular.isUndefined(isPublic) || isPublic !== true)) {
                 event.preventDefault();
                 $state.go('login');
                 return false;

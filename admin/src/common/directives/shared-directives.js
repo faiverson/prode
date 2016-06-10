@@ -97,65 +97,36 @@ angular.module('app.shared-directives', [])
             }
         };
     }])
-    .directive('sortable', [function () {
-        return {
-            restrict: 'A',
-            scope: {
-                currentSort: '=',
-                currentDir: '='
-            },
-            link: function ($scope, $elem, $attrs) {
-
-                $elem.addClass('sortable');
-
-                $scope.$watchCollection('[currentSort, currentDir]', function () {
-                    $elem.removeClass('sortable-asc');
-                    $elem.removeClass('sortable-desc');
-
-                    if ($scope.currentSort.toString() === $attrs.sortable) {
-                        if ($scope.currentDir === 'asc') {
-                            $elem.addClass('sortable-asc');
-                        } else {
-                            $elem.addClass('sortable-desc');
-                        }
-                    }
-                });
-            }
-        };
-    }])
-    .directive('sortColumn', [function () {
+    .directive('sortColumn', ['CRUD', function (CRUD) {
         return {
             restrict: 'A',
             scope: {
                 onSort: '&',
-                sortData: '='
             },
             link: function ($scope, $elem, $attrs) {
-
+                if(!CRUD.filters.hasOwnProperty('sorting') || angular.isUndefined(CRUD.filters.sorting)) {
+                    CRUD.filters.sorting = {};
+                }
                 $elem.addClass('clickable');
-
                 $elem.bind('click', function () {
                     $scope.sort($attrs.sortColumn, $elem);
                 });
 
                 $scope.sort = function (col, elem) {
-
-                    elem.removeClass('sort-desc');
-                    elem.removeClass('sort-asc');
-
-                    if ($scope.sortData.hasOwnProperty(col)) {
-                        if ($scope.sortData[col] === 'asc') {
-                            $scope.sortData[col] = 'desc';
+                    elem.removeClass('sort-desc').removeClass('sort-asc');
+                    if (CRUD.filters.sorting.hasOwnProperty(col)) {
+                        if (CRUD.filters.sorting[col] === 'asc') {
+                            CRUD.filters.sorting[col] = 'desc';
                         }
-                        else if ($scope.sortData[col] === 'desc') {
-                            delete $scope.sortData[col];
+                        else if (CRUD.filters.sorting[col] === 'desc') {
+                            delete CRUD.filters.sorting[col];
                         }
                     } else {
-                        $scope.sortData[col] = 'asc';
+                        CRUD.filters.sorting[col] = 'asc';
                     }
 
-                    if (angular.isDefined($scope.sortData[col])) {
-                        elem.addClass('sort-' + $scope.sortData[col]);
+                    if (angular.isDefined(CRUD.filters.sorting[col])) {
+                        elem.addClass('sort-' + CRUD.filters.sorting[col]);
                     }
 
                     if (angular.isFunction($scope.onSort)) {
@@ -246,6 +217,25 @@ angular.module('app.shared-directives', [])
             }
         };
     }])
+    .directive('daterangepicker', function () {
+        return {
+            restrict: 'E',
+            template: '<div class="input-group datefilter"><span class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span><input type="datefilter" ></div>',
+            require: 'ngModel',
+            replace: true,
+            link: function ($scope, elem, $attrs, modelController) {
+                 var model = $attrs.ngModel,
+                     options = $scope.$parent[model];
+
+                elem.daterangepicker(options, function (start_at, end_at, label) {
+                    $scope.$apply(function(){
+                        $scope.fixture.start_at = start_at.format('YYYY-MM-DD HH:mm a');
+                        $scope.fixture.end_at = end_at.format('YYYY-MM-DD HH:mm a');
+                    });
+                });
+            }
+        };
+    })
     .directive('iframeSetDimensionsOnload', [function () {
         return {
             restrict: 'A',

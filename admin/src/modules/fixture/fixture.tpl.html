@@ -4,10 +4,9 @@
     <table class="table">
         <thead>
         <tr>
-            <th>#</th>
-            <th sort-column="author" on-sort="getSeason()" sort-data="sortBy">Fixture</th>
-            <th>Start</th>
-            <th>End</th>
+            <th sort-column="number" on-sort="update()">Fixture #</th>
+            <th sort-column="start_at" on-sort="update()">Start</th>
+            <th sort-column="end_at" on-sort="update()">End</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -16,7 +15,18 @@
             <td data-ng-bind="fixture.number"></td>
             <td data-ng-bind="fixture.start_at"></td>
             <td data-ng-bind="fixture.end_at"></td>
-            <td data-ng-bind="fixture.end_at"></td>
+            <td>
+                <div class="row">
+                    <div class="btn-toolbar" role="toolbar">
+                        <div class="btn-group" role="group">
+                            <daterangepicker data-ng-model="rangeDates"></daterangepicker>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" data-ng-click="save_fixture(fixture);" class="btn btn-sm btn-success">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </td>
             <!--<td>-->
                 <!--<a ui-sref="{{fixture.id}}" class="btn btn-warning">Fixture</a>-->
             <!--</td>-->

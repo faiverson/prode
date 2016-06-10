@@ -6,7 +6,7 @@ angular.module( 'app.season', [ 'ui.router' ] ).config( [ "$stateProvider", func
         data: {
             pageTitle: 'Prode - Season',
             bodyClass: 'dashboard',
-            isPublic: true
+            isPublic: false
         }
     } );
 } ] ).controller( 'SeasonCtrl', [ '$scope', '$uibModal', 'SeasonService', '$state', 'Notification', '$stateParams', function ( $scope, $uibModal, SeasonService, $state, Notification, $stateParams ) {

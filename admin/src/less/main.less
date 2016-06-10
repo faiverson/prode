@@ -4,5 +4,26 @@
 @import 'variables.less';
 @import 'fonts.less';
 @import 'united.less';
+@import 'directive.sorting.less';
+@import (inline) "../../vendor/bootstrap-daterangepicker/daterangepicker.css";
 @import (inline) "../../vendor/angular-ui-notification/dist/angular-ui-notification.css";
 @import (inline) "../../vendor/angular-loading-bar/build/loading-bar.css";
+
+
+.inner-addon {
+  position: relative;
+}
+
+/* style icon */
+.input-group.datefilter {
+  & > span{
+    width: 35px;
+    cursor: pointer;
+  }
+  input[type=datefilter]  {
+    display: none;
+  }
+  .input-group-addon:first-child{
+    border-radius: @border-radius-base;
+  }
+}

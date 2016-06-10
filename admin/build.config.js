@@ -34,7 +34,7 @@ module.exports = {
                 'vendor/angular-bootstrap/ui-bootstrap-tpls.js',
                 'vendor/angular-bootstrap-show-errors/src/showErrors.js',
                 'vendor/angular-cookies/angular-cookies.js',
-                'vendor/angular-mocks/angular-mocks.js',
+                // 'vendor/angular-mocks/angular-mocks.js',
                 'vendor/angular-ui-router/release/angular-ui-router.js',
                 'vendor/angular-local-storage/dist/angular-local-storage.js',
                 'vendor/angular-jwt/dist/angular-jwt.js',
@@ -43,10 +43,12 @@ module.exports = {
                 'vendor/angular-sanitize/angular-sanitize.js',
                 'vendor/angular-moment/angular-moment.js',
                 'vendor/moment/min/moment.min.js',
-                'vendor/angular-ui-mask/dist/mask.js',
+                // 'vendor/angular-ui-mask/dist/mask.js',
                 'vendor/angular-loading-bar/build/loading-bar.js',
                 'vendor/angular-ui-notification/dist/angular-ui-notification.js',
                 'vendor/angular-autodisable/src/angular-autodisable.js',
+                'vendor/bootstrap-daterangepicker/daterangepicker.js',
+                'vendor/ng-bs-daterangepicker/src/ng-bs-daterangepicker.js',
                 // 'vendor/ng-file-upload-shim/ng-file-upload-shim.js', //no html5 browser support
                 // 'vendor/ng-file-upload-shim/ng-file-upload.js'
             ],

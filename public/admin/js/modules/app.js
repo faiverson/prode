@@ -1,11 +1,8 @@
 angular.module( 'app.views', [ 'ui.router' ] );
-angular.module( 'app', [ 'templates-app', 'app.header-general', 'app.auth', 'app.dashboard', 'app.season', 'app.fixture',
-    // 'app.users',
-    'ui-notification', 'ui.bootstrap', 'ui.bootstrap.tpls', 'app.confirmation-popup', 'LocalStorageModule',
+angular.module( 'app', [ 'templates-app', 'app.header-general', 'app.auth', 'app.dashboard', 'app.season', 'app.fixture', 'ui-notification', 'ui.bootstrap', 'ui.bootstrap.tpls', 'app.confirmation-popup', 'LocalStorageModule',
     // 'ngAnimate',
     'angular-loading-bar', 'xtForm', 'ngAutodisable',
     // 'smoothScroll',
-    // 'app.modal-prospect'
     'app.http-services', 'app.shared-directives', 'app.shared-filters'
 ] ).config( [ "$urlRouterProvider", "$locationProvider", "$httpProvider", "localStorageServiceProvider", "NotificationProvider",
     function appConfig( $urlRouterProvider, $locationProvider, $httpProvider, localStorageServiceProvider, NotificationProvider ) {
@@ -47,7 +44,7 @@ angular.module( 'app', [ 'templates-app', 'app.header-general', 'app.auth', 'app
             var redirectTo = toState.data.redirectTo;
             var isPublic = toState.data.isPublic;
             checkTokenExp();
-            if ( !AuthService.isLoggedIn() && toState.name !== 'login' && angular.isUndefined( isPublic ) ) {
+            if ( !AuthService.isLoggedIn() && toState.name !== 'login' && ( angular.isUndefined( isPublic ) || isPublic !== true ) ) {
                 event.preventDefault();
                 $state.go( 'login' );
                 return false;

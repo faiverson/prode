@@ -23,7 +23,7 @@ class FixturesController extends Controller
 		$response = [];
 		$limit = $request->limit ? $request->limit : $this->limit;
 		$offset = $request->offset ? $request->offset : 0;
-		$order_by = $request->order ? $request->order : ['id' => 'desc'];
+		$order_by = $request->sorting ? $request->sorting : ['id' => 'desc'];
 		$filters = $request->filter ? $request->filter : [];
 		$total = $this->gateway->total($filters);
 		if($request->season_id) {
