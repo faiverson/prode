@@ -59,16 +59,6 @@ angular.module('app.auth', ['ui.router', 'ngCookies', 'ngPasswordMasker'])
                     }]
                 }
             })
-            .state('doLogin', {
-                url: '/doLogin?type&token',
-                templateUrl: 'modules/auth/login.tpl.html',
-                controller: 'DoLoginCtrl',
-                data: {
-                    pageTitle: 'Login Page',
-                    bodyClass: 'page-login',
-                    isPublic: true
-                }
-            })
             .state('logout', {
                 url: '/logout',
                 //templateUrl: 'modules/users/users.form.tpl.html',
@@ -169,40 +159,6 @@ angular.module('app.auth', ['ui.router', 'ngCookies', 'ngPasswordMasker'])
                     Notification.error(err.error);
                 });
         };
-    }])
-
-    .controller('DoLoginCtrl', ['$scope', 'AuthService', '$state', 'Notification', function ($scope, AuthService, $state, Notification) {
-
-        var vm = this;
-
-        vm.init = function () {
-            if (angular.isDefined($state.params.token)) {
-                AuthService.logout().then(function () {
-                    AuthService.setUserToken($state.params.token);
-
-                    var user = AuthService.getLoggedInUser();
-
-                    Notification.success("Welcome " + user.full_name);
-
-                    switch ($state.params.type) {
-                        case 'lead':
-                            $state.go('webinar');
-                            break;
-                        case 'application':
-                            $state.go('application');
-                            break;
-                        default:
-                            $state.go('user');
-                            break;
-                    }
-
-                });
-            } else {
-                $state.go('user');
-            }
-        };
-
-        vm.init();
     }])
 
     .controller('LogoutController', ['$scope', 'AuthService', '$state', 'Notification', function ($scope, AuthService, $state, Notification) {

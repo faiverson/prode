@@ -104,7 +104,7 @@ angular.module('app.shared-directives', [])
                 onSort: '&',
             },
             link: function ($scope, $elem, $attrs) {
-                if(!CRUD.filters.hasOwnProperty('sorting') || angular.isUndefined(CRUD.filters.sorting)) {
+                if(CRUD.hasOwnProperty('filters') && (!CRUD.filters.hasOwnProperty('sorting') || angular.isUndefined(CRUD.filters.sorting))) {
                     CRUD.filters.sorting = {};
                 }
                 $elem.addClass('clickable');

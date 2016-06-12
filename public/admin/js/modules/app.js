@@ -1,5 +1,5 @@
 angular.module( 'app.views', [ 'ui.router' ] );
-angular.module( 'app', [ 'templates-app', 'app.header-general', 'app.auth', 'app.dashboard', 'app.season', 'app.fixture', 'ui-notification', 'ui.bootstrap', 'ui.bootstrap.tpls', 'app.confirmation-popup', 'LocalStorageModule',
+angular.module( 'app', [ 'templates-app', 'app.header-general', 'app.auth', 'app.dashboard', 'app.season', 'app.fixture', 'app.games', 'ui-notification', 'ui.bootstrap', 'ui.bootstrap.tpls', 'app.confirmation-popup', 'LocalStorageModule',
     // 'ngAnimate',
     'angular-loading-bar', 'xtForm', 'ngAutodisable',
     // 'smoothScroll',

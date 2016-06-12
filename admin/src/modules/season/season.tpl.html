@@ -1,46 +1,44 @@
 <div data-ng-include="'modules/shared/header-general/header-general.tpl.html'"></div>
-<div class="container">
-    <h1>Season
-        <!--<button class="btn btn-sm btn-primary pull-right" ui-sref="testimonials.new">NEW TESTIMONIAL</button>-->
-    </h1>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th sort-column="author" on-sort="getSeason()" sort-data="sortBy">Season</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr data-ng-repeat="season in seasons">
-            <td>{{ season.id}}</td>
-            <td data-ng-bind="season.name"></td>
-            <td>
-                <a href="/fixture/{{season.id}}" class="btn btn-warning">Fixture</a>
-                        <!--<li><a ui-sref="testimonials.edit({id:testimonial.id})">Edit</a></li>-->
-                        <!--<li><a href="#" data-ng-click="openDeleteConfirm(testimonial.id)">Remove</a></li>-->
-            </td>
-        </tr>
+<section ui-view class="season">
+    <div class="container">
+        <h1>Seasons
+            <!--<button class="btn btn-sm btn-primary pull-right" ui-sref="testimonials.new">NEW TESTIMONIAL</button>-->
+        </h1>
+        <table class="table table-hover table-responsive">
+            <thead>
+            <tr>
+                <th sort-column="id" on-sort="update()">#</th>
+                <th sort-column="name" on-sort="update()">Season</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-ng-repeat="season in seasons">
+                <td>{{ season.id}}</td>
+                <td data-ng-bind="season.name"></td>
+                <td><a ng-href="/seasons/{{season.id}}/fixture" class="btn btn-sm btn-warning">Fixture</a></td>
+            </tr>
 
-        </tbody>
-    </table>
-    <div class="table-nav row">
-        <div class="col-md-8">
-            <uib-pagination direction-links="false"
-                            total-items="pagination.totalItems"
-                            ng-model="pagination.currentPage"
-                            items-per-page="pagination.itemsPerPage"
-                            ng-change="pagination.pageChange()"
-                            num-pages="smallnumPages"></uib-pagination>
-        </div>
+            </tbody>
+        </table>
+        <div class="table-nav row">
+            <div class="col-md-8">
+                <uib-pagination direction-links="false"
+                                total-items="pagination.totalItems"
+                                ng-model="pagination.currentPage"
+                                items-per-page="pagination.itemsPerPage"
+                                ng-change="pagination.pageChange()"
+                                num-pages="smallnumPages"></uib-pagination>
+            </div>
 
-        <div class="col-md-4">
-            <uib-pager total-items="pagination.totalItems"
-                       items-per-page="pagination.itemsPerPage"
-                       ng-model="pagination.currentPage"
-                       ng-change="pagination.pageChange()">
-            </uib-pager>
+            <div class="col-md-4">
+                <uib-pager total-items="pagination.totalItems"
+                           items-per-page="pagination.itemsPerPage"
+                           ng-model="pagination.currentPage"
+                           ng-change="pagination.pageChange()">
+                </uib-pager>
+            </div>
         </div>
     </div>
-</div>
+</section>
 <div data-ng-include="'modules/shared/footer/footer.tpl.html'"></div>

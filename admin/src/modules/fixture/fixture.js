@@ -1,8 +1,18 @@
 angular.module('app.fixture', ['ui.router'])
     .config(function config($stateProvider) {
         $stateProvider
-            .state('fixture', {
-                url: '/fixture/:season_id',
+            .state('seasons.fixture', {
+                url: '/fixture',
+                templateUrl: 'modules/fixture/fixture.tpl.html',
+                controller: 'FixtureCtrl',
+                data: {
+                    pageTitle: 'Prode - Fixture',
+                    bodyClass: 'dashboard',
+                    isPublic: false
+                }
+            })
+            .state('seasons.fixture.id', {
+                url: '/:fixture_id',
                 templateUrl: 'modules/fixture/fixture.tpl.html',
                 controller: 'FixtureCtrl',
                 data: {

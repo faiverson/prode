@@ -184,37 +184,59 @@ angular.module( 'app.http-services', [ 'app.site-configs', 'angular-jwt', 'app.s
 } ] ).factory( 'FixtureService', [ '$http', '$site-configs', '$objects', function ( $http, $configs, $objects ) {
     return {
         get: function ( data ) {
-            var endpoint = $configs.API_BASE_URL + 'fixtures/',
+            var endpoint = $configs.API_BASE_URL + 'seasons/',
                 params = angular.copy( data );
             if ( !params.hasOwnProperty( 'season_id' ) ) {
                 return false;
             }
-            endpoint += params.season_id;
+            endpoint += params.season_id + '/fixture';
             delete params.season_id;
             endpoint += '?' + $objects.serializeUrl( params );
             return $http.get( endpoint );
         },
-        update: function ( data ) {
-            var endpoint = $configs.API_BASE_URL + 'fixtures/',
+        update: function ( data, id ) {
+            var endpoint = $configs.API_BASE_URL + 'seasons/',
                 params = angular.copy( data );
             if ( !params.hasOwnProperty( 'season_id' ) ) {
                 return false;
             }
-            endpoint += params.season_id;
-            delete params.season_id;
-            endpoint += '?' + $objects.serializeUrl( params );
+            endpoint += params.season_id + '/fixture/' + id;
             return $http.put( endpoint );
         },
         add: function ( data ) {
-            var endpoint = $configs.API_BASE_URL + 'fixtures/',
+            var endpoint = $configs.API_BASE_URL + 'seasons/',
                 params = angular.copy( data );
             if ( !params.hasOwnProperty( 'season_id' ) ) {
                 return false;
             }
-            endpoint += params.season_id;
-            delete params.season_id;
-            endpoint += '?' + $objects.serializeUrl( params );
+            endpoint += params.season_id + '/fixture';
             return $http.post( endpoint );
+        }
+    };
+} ] ).factory( 'GameService', [ '$http', '$site-configs', '$objects', function ( $http, $configs, $objects ) {
+    return {
+        get: function ( data ) {
+            var endpoint = $configs.API_BASE_URL + 'seasons/',
+                params = angular.copy( data );
+            if ( !params.hasOwnProperty( 'season_id' ) && !params.hasOwnProperty( 'fixture_id' ) ) {
+                return false;
+            }
+            endpoint += params.season_id + '/fixture/' + params.fixture_id + '/games';
+            delete params.season_id;
+            delete params.fixture_id;
+            endpoint += '?' + $objects.serializeUrl( params );
+            return $http.get( endpoint );
+        },
+        add: function ( data ) {
+            var endpoint = $configs.API_BASE_URL + 'seasons/',
+                params = angular.copy( data );
+            if ( !params.hasOwnProperty( 'season_id' ) && !params.hasOwnProperty( 'fixture_id' ) ) {
+                return false;
+            }
+            endpoint += params.season_id + '/fixture/' + params.fixture_id + '/games';
+            delete params.season_id;
+            delete params.fixture_id;
+            return $http.post( endpoint, data );
         }
     };
 } ] ).service( 'CRUD', [ 'Pagination', '$q', '$site-configs', '$objects', 'Notification', function ( Pagination, $q, $configs, $objects, Notification ) {
@@ -222,7 +244,7 @@ angular.module( 'app.http-services', [ 'app.site-configs', 'angular-jwt', 'app.s
         init: function ( service, filters ) {
             this.service = service;
             this.filters = filters;
-            this.pagination = Pagination.init();
+            this.pagination = Pagination.init( filters );
             return this;
         },
         get: function ( filters ) {
@@ -240,16 +262,13 @@ angular.module( 'app.http-services', [ 'app.site-configs', 'angular-jwt', 'app.s
             } );
             return promese;
         },
-        save: function ( filters ) {
+        save: function ( data ) {
             var ajax,
                 deferred = $q.defer();
-            filters = angular.isUndefined( filters ) ? {} : filters;
-            filters = angular.extend( this.filters, filters );
-            this.filters = filters;
-            if ( filters.hasOwnProperty( 'id' ) ) {
-                ajax = this.service.update( filters );
+            if ( data.hasOwnProperty( 'id' ) ) {
+                ajax = this.service.update( data, data.id );
             } else {
-                ajax = this.service.add( filters );
+                ajax = this.service.add( data );
             }
             ajax.then( function ( response ) {
                 var result = response.data;
@@ -264,7 +283,6 @@ angular.module( 'app.http-services', [ 'app.site-configs', 'angular-jwt', 'app.s
             return deferred.promise;
         },
         refresh: function () {
-            console.log( this.sortBy );
             return this.get( {
                 'offset': ( this.pagination.current - 1 ) * this.pagination.items,
                 'limit': this.pagination.items
@@ -273,10 +291,10 @@ angular.module( 'app.http-services', [ 'app.site-configs', 'angular-jwt', 'app.s
     };
 } ] ).service( 'Pagination', [ '$http', '$site-configs', function ( $http, $configs ) {
     return {
-        init: function () {
-            this.total = 0;
+        init: function ( filters ) {
+            this.total = filters.hasOwnProperty( 'pagination' ) && filters.pagination.hasOwnProperty( 'total' ) ? filters.pagination.total : 0;
             this.current = 1;
-            this.items = 10;
+            this.items = filters.hasOwnProperty( 'pagination' ) && filters.pagination.hasOwnProperty( 'items' ) ? filters.pagination.items : 0;
             return this;
         },
         update: function ( data ) {

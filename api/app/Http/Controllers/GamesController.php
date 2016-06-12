@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\FixtureRepository;
+use App\Repositories\MatchRepository;
 use Illuminate\Http\Request;
 
-class FixturesController extends Controller
+class GamesController extends Controller
 {
-    public function __construct(FixtureRepository $fixtureRepository)
+    public function __construct(MatchRepository $matchRepository)
     {
 		parent::__construct();
-		$this->gateway = $fixtureRepository;
+		$this->gateway = $matchRepository;
     }
 
 	/**
@@ -25,17 +25,19 @@ class FixturesController extends Controller
 		$offset = $request->offset ? $request->offset : 0;
 		$order_by = $request->sorting ? $request->sorting : ['id' => 'desc'];
 		$filters = $request->filter ? $request->filter : [];
-		$total = $this->gateway->total($filters);
-		if($request->season_id) {
-			$filters['season_id'] = $request->season_id;
+        $with = ['home', 'away'];
+		if($request->fixture_id) {
+			$filters['fixture_id'] = $request->fixture_id;
 		}
+
+		$total = $this->gateway->total($filters);
 		if($total > 0) {
-			$response = $this->gateway->all(null, $limit, $offset, $order_by, $filters);
+			$response = $this->gateway->all(null, $limit, $offset, $order_by, $filters, $with);
 		}
 
 		return response()->ok([
 			'total' => $total,
-			'fixtures' => $response
+			'games' => $response
 		]);
 	}
 
@@ -63,11 +65,7 @@ class FixturesController extends Controller
 	 */
 	public function update(Request $request)
 	{
-		$id = $request->id;
-		$response = $this->gateway->update([
-            'start_at' => $request->input('start_at'),
-            'end_at' =>  $request->input('end_at')
-        ], $id);
+		$response = $this->gateway->update_all($request->input('games'));
 		if (!$response) {
 			return response()->error($this->gateway->errors());
 		}

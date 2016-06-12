@@ -178,14 +178,6 @@ class AddFixture extends Command
                     $rival = $fixture[$prev - 1][$n];
                     $rival_position = array_keys($rival)[0] == 'home_team_id' ? 'away_team_id' : 'home_team_id';
                     $rival = array_values($rival)[0];
-//                    if($number == 4) {
-//                        dd($team, $fixture[$prev][$n], $rival, $rival_position);
-//                    }
-//                    $rival_position = array_keys($rival)[0] == 'home_team_id' ? 'away_team_id' : 'home_team_id';
-//                    if($number == 5) {
-//                        dd($fixture[$prev - 1][$n]);
-//                        dd($rival);
-//                    }
                 }
                 $team_position = $rival_position == 'home_team_id' ? 'away_team_id' : 'home_team_id';
                 $match = [$team_position => $team, $rival_position => $rival];

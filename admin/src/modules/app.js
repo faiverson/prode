@@ -7,6 +7,7 @@ angular.module('app', [
     'app.dashboard',
     'app.season',
     'app.fixture',
+    'app.games',
     'ui-notification',
     'ui.bootstrap',
     'ui.bootstrap.tpls',

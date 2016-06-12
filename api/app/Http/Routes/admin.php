@@ -11,7 +11,11 @@ Route::group(['namespace' => 'Auth', 'middleware' => 'domain'], function () {
 
 Route::group(['middleware' => 'domain'], function () {
     Route::group(['middleware' => ['jwt.auth', 'role:admin']], function () {
-        Route::get('/seasons', 'SeasonsController@index');
-        Route::get('/fixtures/{season_id}', 'FixturesController@index')->where('season_id', '[0-9]+');
+		Route::get('/seasons', 'SeasonsController@index');
+		Route::get('/seasons/{season_id}/fixture', 'FixturesController@index')->where('season_id', '[0-9]+');
+		Route::put('/seasons/{season_id}/fixture/{id}', 'FixturesController@update')->where('season_id', '[0-9]+')->where('id', '[0-9]+');
+
+		Route::get('/seasons/{season_id}/fixture/{fixture_id}/games', 'GamesController@index')->where('season_id', '[0-9]+')->where('fixture_id', '[0-9]+');
+		Route::post('/seasons/{season_id}/fixture/{fixture_id}/games', 'GamesController@update')->where('season_id', '[0-9]+')->where('fixture_id', '[0-9]+');
     });
 });

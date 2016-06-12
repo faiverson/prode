@@ -1,6 +1,16 @@
 angular.module('app.dashboard', ['ui.router'])
     .config(function config($stateProvider) {
         $stateProvider
+            .state('home', {
+                url: '/',
+                templateUrl: 'modules/dashboard/dashboard.tpl.html',
+                controller: 'DashboardCtrl',
+                data: {
+                    pageTitle: 'Prode - Dashboard',
+                    bodyClass: 'dashboard',
+                    isPublic: false
+                }
+            })
             .state('dashboard', {
                 url: '/dashboard',
                 templateUrl: 'modules/dashboard/dashboard.tpl.html',
@@ -8,7 +18,7 @@ angular.module('app.dashboard', ['ui.router'])
                 data: {
                     pageTitle: 'Prode - Dashboard',
                     bodyClass: 'dashboard',
-                    isPublic: true
+                    isPublic: false
                 }
             });
     })

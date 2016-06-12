@@ -1,6 +1,12 @@
 angular.module( 'app.season', [ 'ui.router' ] ).config( [ "$stateProvider", function config( $stateProvider ) {
-    $stateProvider.state( 'season', {
-        url: '/season?id',
+    $stateProvider.state( 'seasons', {
+        url: '/seasons/:season_id',
+        params: {
+            season_id: {
+                value: null,
+                squash: true
+            }
+        },
         templateUrl: 'modules/season/season.tpl.html',
         controller: 'SeasonCtrl',
         data: {
@@ -9,36 +15,21 @@ angular.module( 'app.season', [ 'ui.router' ] ).config( [ "$stateProvider", func
             isPublic: false
         }
     } );
-} ] ).controller( 'SeasonCtrl', [ '$scope', '$uibModal', 'SeasonService', '$state', 'Notification', '$stateParams', function ( $scope, $uibModal, SeasonService, $state, Notification, $stateParams ) {
-    var Season = {
-        init: function () {
-            var params = {
-                    start: ( $scope.pagination.currentPage - 1 ) * $scope.pagination.itemsPerPage,
-                    length: $scope.pagination.itemsPerPage,
-                    // sortBy: $scope.sortBy.column,
-                    // sortDir: $scope.sortBy.dir
-                },
-                season_id;
-            if ( angular.isDefined( $stateParams.id ) ) {
-                season_id = $stateParams.id;
+} ] ).controller( 'SeasonCtrl', [ '$scope', 'CRUD', 'SeasonService', '$state', 'Notification', '$stateParams', function ( $scope, CRUD, SeasonService, $state, Notification, $stateParams ) {
+    var filters = angular.isDefined( $stateParams.season_id ) ? {
+        'season_id': $stateParams.season_id
+    } : {};
+    angular.extend( $scope, {
+        seasons: {},
+        table: CRUD.init( SeasonService, filters )
+    } );
+    $scope.update = function () {
+        $scope.table.refresh().then( function ( response ) {
+            var result = response.data;
+            if ( result.success ) {
+                $scope.seasons = result.data.seasons;
             }
-            Season.get();
-        },
-        get: function () {
-            var promese = SeasonService.get();
-            promese.then( function ( response ) {
-                $scope.seasons = response.data.data.seasons;
-            } );
-        }
+        } );
     };
-    $scope.pagination = {
-        totalItems: 20,
-        currentPage: 1,
-        itemsPerPage: 10,
-        pageChange: function () {
-            Season.get();
-        }
-    };
-    $scope.seasons = {};
-    Season.init();
+    $scope.update();
 } ] );

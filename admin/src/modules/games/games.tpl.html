@@ -1,0 +1,59 @@
+<div class="container">
+    <h1>Games</h1>
+    <table class="table table-hover table-responsive">
+        <thead>
+        <tr>
+            <th>Game #</th>
+            <th>Home</th>
+            <th>Away</th>
+            <th class="text-right">Actions</th>
+        </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="4"><button class="btn btn-sm btn-info pull-right" data-ng-click="save_all()" type="button" tabindex="-1">save all</button></td>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr data-ng-repeat="game in games">
+                <td data-ng-bind="game.id" class="col-md-1"></td>
+                <td class="col-md-3">
+                    <div class="input-group team home">
+                      <span class="input-group-btn">
+                        <button class="btn btn-sm btn-warning" type="button" tabindex="-1">{{ game.home.name }}</button>
+                      </span>
+                        <input type="text" class="form-control score" placeholder="score" tabindex={{index}} data-ng-model="game.home_result">
+                    </div><!-- /input-group -->
+                </td>
+                <td class="col-md-3">
+                    <div class="input-group team away">
+                        <input type="text" class="form-control score" placeholder="score" tabindex={{index}} data-ng-model="game.away_result">
+                          <span class="input-group-btn">
+                            <button class="btn btn-sm btn-warning" type="button" tabindex="-1">{{ game.away.name }}</button>
+                          </span>
+                    </div><!-- /input-group -->
+                </td>
+                <td class="col-md-7">
+                    <button class="btn btn-sm btn-danger pull-right" data-ng-click="save_game(game)" type="button" tabindex="-1">save</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="table-nav row" ng-if="table.pagination.total >= table.pagination.items">
+        <div class="col-md-8">
+            <uib-pagination direction-links="false"
+                            total-items="table.pagination.total"
+                            items-per-page="table.pagination.items"
+                            ng-model="table.pagination.current"
+                            ng-change="update()"
+                            num-pages="smallnumPages"></uib-pagination>
+        </div>
+        <div class="col-md-4">
+            <uib-pager total-items="table.pagination.total"
+                       items-per-page="table.pagination.items"
+                       ng-model="table.pagination.current"
+                       ng-change="update()">
+            </uib-pager>
+        </div>
+    </div>
+</div>
